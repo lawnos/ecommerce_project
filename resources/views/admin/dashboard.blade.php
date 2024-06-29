@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admin.dashboard.layouts.app')
 
 @section('style')
 @endsection

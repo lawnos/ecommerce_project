@@ -114,51 +114,47 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
-        </li>
+
     </ul>
 </nav>
 
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-    <a href="index3.html" class="brand-link">
-        <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+    <div class="brand-link">
+        <img src="https://i.pinimg.com/564x/51/0d/20/510d20d949e868c155ce8c3fa098ee6f.jpg" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Dashboard</span>
-    </a>
+        <span class="brand-text font-weight-light">Ecommerce</span>
+    </div>
 
     <div class="sidebar">
-
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="https://i.pinimg.com/564x/d0/88/ef/d088ef8723a83b699272be0a90bd7e4c.jpg"
-                    class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
-            </div>
-        </div>
 
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ url('admin/dashboard') }}" class="nav-link active">
+                    <a href="{{ url('admin/dashboard') }}"
+                        class="nav-link @if (Request::segment(2) == 'dashboard' && Request::segment(3) == null) active @endif">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/admin/list') }}" class="nav-link">
+                    <a href="{{ url('admin/dashboard/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'dashboard' && Request::segment(3) == 'list') active @endif">
                         <i class="nav-icon fas fa-user"></i>
                         <p>User</p>
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('admin/product/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'product' && Request::segment(3) == 'list') active @endif">
+                        <i class="nav-icon fas fa-box"></i>
+                        <p>Product</p>
+                    </a>
+                </li>
+
+                {{-- <li class="nav-item">
                     <a href="pages/widgets.html" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -384,6 +380,12 @@
                             </a>
                         </li>
                     </ul>
+                </li> --}}
+                <li class="nav-item">
+                    <a href="{{ url('admin/logout') }}" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>Log Out</p>
+                    </a>
                 </li>
             </ul>
         </nav>

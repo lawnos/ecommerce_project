@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ecommerce | Dashboard </title>
+    <title>{{ !empty($header_title) ? $header_title : '' }} | Ecommerce </title>
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
@@ -22,9 +22,9 @@
 <body class="hold-transition sidebar-mini">
 
     <div class="wrapper">
-        @include('admin.layouts.header')
+        @include('admin.dashboard.layouts.header')
         @yield('content')
-        @include('admin.layouts.footer')
+        @include('admin.dashboard.layouts.footer')
     </div>
 
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
@@ -43,6 +43,5 @@
 
 </body>
 
-<!-- Mirrored from adminlte.io/themes/v3/index3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jun 2024 12:19:49 GMT -->
 
 </html>
