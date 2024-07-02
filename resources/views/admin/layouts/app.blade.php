@@ -22,9 +22,9 @@
 <body class="hold-transition sidebar-mini">
 
     <div class="wrapper">
-        @include('admin.dashboard.layouts.header')
+        @include('admin.layouts.header')
         @yield('content')
-        @include('admin.dashboard.layouts.footer')
+        @include('admin.layouts.footer')
     </div>
 
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
@@ -40,6 +40,31 @@
     <script src="{{ asset('assets/dist/js/pages/dashboard3.js') }}"></script>
 
     @yield('script')
+
+    <style>
+        #alert {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #alert.hidden {
+            opacity: 0;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var alert = document.getElementById('alert');
+            if (alert) {
+                setTimeout(function() {
+                    alert.classList.add('hidden');
+                }, 2000); 
+
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 2500); 
+            }
+        });
+    </script>
 
 </body>
 

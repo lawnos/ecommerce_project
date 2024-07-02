@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        $data['header_title'] = "Dashboard";
+        $data['header_title'] = "Bảng Điều Khiển";
         return view('admin.dashboard', $data);
     }
 }
