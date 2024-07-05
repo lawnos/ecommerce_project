@@ -24,9 +24,14 @@ class AccountController extends Controller
 
     public function insert(Request $request)
     {
-        request()->validate([
-            'email' => 'required|email|unique:users',
-        ]);
+        request()->validate(
+            [
+                'email' => 'required|email|unique:users',
+            ],
+            [
+                'email.unique' => 'Email này đã tồn tại.',
+            ]
+        );
 
         $user = new User;
         $user->name     = $request->name;
@@ -47,9 +52,14 @@ class AccountController extends Controller
 
     public function update($id, Request $request)
     {
-        request()->validate([
-            'email' => 'required|email|unique:users,email,' . $id
-        ]);
+        request()->validate(
+            [
+                'email' => 'required|email|unique:users,email,' . $id
+            ],
+            [
+                'email.unique' => 'Email này đã tồn tại.',
+            ]
+        );
 
         $user           = User::getSingle($id);
         $user->name     = $request->name;

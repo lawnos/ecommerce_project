@@ -9,10 +9,10 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Danh sách tài khoản quản trị viên</h1>
+                        <h1>Danh sách thương hiệu</h1>
                     </div>
                     <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/account/add') }}" class="btn btn-primary">Thêm tài khoản quản trị viên</a>
+                        <a href="{{ url('admin/brand/add') }}" class="btn btn-primary">Thêm mới thương hiệu</a>
                     </div>
                 </div>
             </div>
@@ -42,9 +42,14 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tên</th>
-                                            <th>Email</th>
+                                            <th>Tên thương hiệu</th>
+                                            <th>Slug</th>
+                                            <th>Tiêu đề Meta</th>
+                                            <th>Mô tả Meta</th>
+                                            <th>Từ khóa Meta</th>
+                                            <th>Được tạo bởi</th>
                                             <th>Trạng thái</th>
+                                            <th>Thời gian tạo</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
@@ -53,15 +58,19 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $value->name }}</td>
-                                                <td>{{ $value->email }}</td>
+                                                <td>{{ $value->slug }}</td>
+                                                <td>{{ $value->meta_title }}</td>
+                                                <td>{{ $value->meta_description }}</td>
+                                                <td>{{ $value->meta_keywords }}</td>
+                                                <td>{{ $value->created_by_name }}</td>
                                                 <td>{{ $value->status == 0 ? 'Hoạt dộng' : 'Không hoạt động' }}</td>
+                                                <td>{{ date('y-m-Y', strtotime($value->created_at)) }}</td>
                                                 <td>
-                                                    <a href="{{ url('admin/account/edit/' . $value->id) }}"
+                                                    <a href="{{ url('admin/brand/edit/' . $value->id) }}"
                                                         class="btn btn-warning">
-                                                        Sửa</i></a>
-                                                    <a href="{{ url('admin/account/delete/' . $value->id) }}"
-                                                        class="btn btn-danger"
-                                                        onclick="return confirm('Bạn có chắc chắn muốn xóa mục này không?');">
+                                                        Sửa</a>
+                                                    <a href="{{ url('admin/brand/delete/' . $value->id) }}"
+                                                        class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa mục này không?');">
                                                         Xóa</a>
                                                 </td>
                                             </tr>

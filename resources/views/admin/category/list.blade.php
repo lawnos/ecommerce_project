@@ -56,7 +56,7 @@
                                     <tbody>
                                         @foreach ($getRecord as $value)
                                             <tr>
-                                                <td>{{ $value->id }}</td>
+                                                <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $value->name }}</td>
                                                 <td>{{ $value->slug }}</td>
                                                 <td>{{ $value->meta_title }}</td>
@@ -70,7 +70,7 @@
                                                         class="btn btn-warning">
                                                         Sửa</a>
                                                     <a href="{{ url('admin/category/delete/' . $value->id) }}"
-                                                        class="btn btn-danger">
+                                                        class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa mục này không?');">
                                                         Xóa</a>
                                                 </td>
                                             </tr>
@@ -87,5 +87,5 @@
     </div>
 @endsection
 @section('script')
-    <script src="{{ asset('assets/dist/js/pages/dashboard3.js') }}"></script>
+    
 @endsection

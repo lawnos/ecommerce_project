@@ -24,9 +24,14 @@ class CategoryController extends Controller
 
     public function insert(Request $request)
     {
-        request()->validate([
-            'slug' => 'required|unique:category'
-        ]);
+        request()->validate(
+            [
+                'slug' => 'required|unique:category'
+            ],
+            [
+                'slug.unique' => 'Slug này đã tồn tại.',
+            ]
+        );
 
         $category                   = new CategoryModel;
         $category->name             = trim($request->name);
@@ -50,9 +55,14 @@ class CategoryController extends Controller
 
     public function update($id, Request $request)
     {
-        request()->validate([
-            'slug' => 'required|unique:category,slug,' . $id
-        ]);
+        request()->validate(
+            [
+                'slug' => 'required|unique:category,slug,' . $id
+            ],
+            [
+                'slug.unique' => 'Slug này đã tồn tại.',
+            ]
+        );
 
         $category                   = CategoryModel::getSingle($id);
         $category->name             = trim($request->name);

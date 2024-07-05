@@ -9,10 +9,10 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Thêm tài khoản mới quản trị viên</h1>
+                        <h1>Thêm mới thương hiệu</h1>
                     </div>
                     <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/account/list') }}" class="btn btn-primary">Quay lại</a>
+                        <a href="{{ url('admin/brand/list') }}" class="btn btn-primary">Quay lại</a>
                     </div>
                 </div>
             </div>
@@ -27,35 +27,49 @@
                                 {{ csrf_field() }}
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label>Tên</label>
+                                        <label>Tên thương hiệu <span style="color:red">*</span></label>
                                         <input type="text" class="form-control" name="name" required
-                                            value="{{ old('name') }}" placeholder="Nhập tên">
+                                            value="{{ old('name') }}" placeholder="Nhập tên thương hiệu">
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" name="email" required
-                                            value="{{ old('email') }}" placeholder="Nhập Email">
-                                        <div style="color:red">{{ $errors->first('email') }}</div>
+                                        <label>Slug <span style="color:red">*</span></label>
+                                        <input type="text" class="form-control" name="slug" required
+                                            value="{{ old('slug') }}" placeholder="Slug Ex. URL">
+                                        <div style="color:red">{{ $errors->first('slug') }}</div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Mật khẩu</label>
-                                        <input type="password" class="form-control" name="password" required
-                                            value="{{ old('password') }}" placeholder="Nhập mật khẩu">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Trạng thái</label>
+                                        <label>Trạng thái <span style="color:red">*</span></label>
                                         <select class="form-control" name="status" id="" required>
                                             <option {{ old('status') == 0 ? 'selected' : '' }} value="0">
                                                 Hoạt động
                                             </option>
                                             <option {{ old('status') == 1 ? 'selected' : '' }} value="1">
-                                               Không hoạt động
+                                                Không hoạt động
                                             </option>
                                         </select>
                                     </div>
+
+                                    <hr>
+
+                                    <div class="form-group">
+                                        <label>Tiêu đề Meta <span style="color:red">*</span></label>
+                                        <input type="text" class="form-control" name="meta_title" required
+                                            value="{{ old('meta_title') }}" placeholder="Nhập tiêu đề Meta">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Mô tả Meta</label>
+                                        <textarea name="meta_description" class="form-control" cols="30" rows="10" placeholder="Nhập mô tả Meta">{{ old('meta_description') }}</textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Từ khóa Meta</label>
+                                        <input type="text" class="form-control" name="meta_keywords"
+                                            value="{{ old('meta_keywords') }}" placeholder="Nhập từ khóa Meta">
+                                    </div>
+
                                 </div>
 
                                 <div class="card-footer">

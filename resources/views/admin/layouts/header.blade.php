@@ -147,30 +147,44 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('admin/account/list') }}"
-                        class="nav-link @if (Request::segment(2) == 'account' && Request::segment(3) == 'list') active @endif">
+                        class="nav-link @if (Request::segment(2) == 'account') active @endif">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Tài khoản</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('admin/category/list') }}"
-                        class="nav-link @if (Request::segment(2) == 'category' && Request::segment(3) == 'list') active @endif">
+                        class="nav-link @if (Request::segment(2) == 'category') active @endif">
                         <i class="nav-icon fas fa-list-ul"></i>
                         <p>Danh mục</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('admin/sub_category/list') }}"
-                        class="nav-link @if (Request::segment(2) == 'sub_category' && Request::segment(3) == 'list') active @endif">
+                        class="nav-link @if (Request::segment(2) == 'sub_category') active @endif">
                         <i class="nav-icon fas fa-list-ul"></i>
                         <p>Danh mục phụ</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('admin/product/list') }}"
-                        class="nav-link @if (Request::segment(2) == 'product' && Request::segment(3) == 'list') active @endif">
-                        <i class="nav-icon fas fa-box"></i>
+                        class="nav-link @if (Request::segment(2) == 'product') active @endif">
+                        <i class="nav-icon fas fa-shopping-bag"></i>
                         <p>Sản phẩm</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/brand/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'brand') active @endif">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>Thương hiệu</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/color/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'color') active @endif">
+                        <i class="nav-icon fas fa-solid fa-palette"></i>
+                        <p>Màu sắc</p>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from adminlte.io/themes/v3/pages/examples/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 26 Jun 2024 12:21:06 GMT -->
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,23 +65,17 @@
                                 </label>
                             </div>
                         </div>
-
                         <div class="col-5">
                             <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
                         </div>
-
                     </div>
                 </form>
-
                 <p class="mb-1">
                     <a href="forgot-password.html">Quên mật khẩu?</a>
                 </p>
-
             </div>
-
         </div>
     </div>
-
 
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 

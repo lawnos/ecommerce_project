@@ -9,10 +9,10 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Danh sách tài khoản quản trị viên</h1>
+                        <h1>Danh sách màu sắc</h1>
                     </div>
                     <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/account/add') }}" class="btn btn-primary">Thêm tài khoản quản trị viên</a>
+                        <a href="{{ url('admin/color/add') }}" class="btn btn-primary">Thêm mới màu sắc</a>
                     </div>
                 </div>
             </div>
@@ -42,9 +42,11 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tên</th>
-                                            <th>Email</th>
+                                            <th>Tên thương hiệu</th>
+                                            <th>Code</th>
+                                            <th>Được tạo bởi</th>
                                             <th>Trạng thái</th>
+                                            <th>Thời gian tạo</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
@@ -53,13 +55,15 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $value->name }}</td>
-                                                <td>{{ $value->email }}</td>
+                                                <td>{{ $value->code }}</td>
+                                                <td>{{ $value->created_by_name }}</td>
                                                 <td>{{ $value->status == 0 ? 'Hoạt dộng' : 'Không hoạt động' }}</td>
+                                                <td>{{ date('y-m-Y', strtotime($value->created_at)) }}</td>
                                                 <td>
-                                                    <a href="{{ url('admin/account/edit/' . $value->id) }}"
+                                                    <a href="{{ url('admin/color/edit/' . $value->id) }}"
                                                         class="btn btn-warning">
-                                                        Sửa</i></a>
-                                                    <a href="{{ url('admin/account/delete/' . $value->id) }}"
+                                                        Sửa</a>
+                                                    <a href="{{ url('admin/color/delete/' . $value->id) }}"
                                                         class="btn btn-danger"
                                                         onclick="return confirm('Bạn có chắc chắn muốn xóa mục này không?');">
                                                         Xóa</a>

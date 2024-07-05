@@ -9,10 +9,10 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Danh sách tài khoản quản trị viên</h1>
+                        <h1>Danh sách sản phẩm</h1>
                     </div>
                     <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/account/add') }}" class="btn btn-primary">Thêm tài khoản quản trị viên</a>
+                        <a href="{{ url('admin/product/add') }}" class="btn btn-primary">Thêm mới sản phẩm</a>
                     </div>
                 </div>
             </div>
@@ -42,9 +42,11 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tên</th>
-                                            <th>Email</th>
+                                            <th>Tiêu đề</th>
+                                            {{-- <th>Slug</th> --}}
+                                            <th>Được tạo bởi</th>
                                             <th>Trạng thái</th>
+                                            <th>Thời gian tạo</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
@@ -52,14 +54,16 @@
                                         @foreach ($getRecord as $value)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $value->name }}</td>
-                                                <td>{{ $value->email }}</td>
+                                                <td>{{ $value->title }}</td>
+                                                {{-- <td>{{ $value->slug }}</td> --}}
+                                                <td>{{ $value->created_by_name }}</td>
                                                 <td>{{ $value->status == 0 ? 'Hoạt dộng' : 'Không hoạt động' }}</td>
+                                                <td>{{ date('y-m-Y', strtotime($value->created_at)) }}</td>
                                                 <td>
-                                                    <a href="{{ url('admin/account/edit/' . $value->id) }}"
+                                                    <a href="{{ url('admin/product/edit/' . $value->id) }}"
                                                         class="btn btn-warning">
-                                                        Sửa</i></a>
-                                                    <a href="{{ url('admin/account/delete/' . $value->id) }}"
+                                                        Sửa</a>
+                                                    <a href="{{ url('admin/product/delete/' . $value->id) }}"
                                                         class="btn btn-danger"
                                                         onclick="return confirm('Bạn có chắc chắn muốn xóa mục này không?');">
                                                         Xóa</a>
@@ -68,6 +72,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div style="padding: 10px; float: right">
+                                    {!! $getRecord->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                                </div>
                             </div>
                         </div>
                     </div>

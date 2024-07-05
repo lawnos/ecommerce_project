@@ -26,9 +26,14 @@ class SubCategoryController extends Controller
 
     public function insert(Request $request)
     {
-        request()->validate([
-            'slug' => 'required|unique:sub_category'
-        ]);
+        request()->validate(
+            [
+                'slug' => 'required|unique:sub_category'
+            ],
+            [
+                'slug.unique' => 'Slug này đã tồn tại.',
+            ]
+        );
 
         $sub_category                   = new SubCategoryModel;
         $sub_category->category_id      = trim($request->category_id);
@@ -54,9 +59,14 @@ class SubCategoryController extends Controller
 
     public function update($id, Request $request)
     {
-        request()->validate([
-            'slug' => 'required|unique:sub_category,slug,' . $id
-        ]);
+        request()->validate(
+            [
+                'slug' => 'required|unique:sub_category,slug,' . $id
+            ],
+            [
+                'slug.unique' => 'Slug này đã tồn tại.',
+            ]
+        );
 
         $sub_category                   = SubCategoryModel::getSingle($id);
         $sub_category->category_id      = trim($request->category_id);
@@ -77,5 +87,20 @@ class SubCategoryController extends Controller
         $category->is_delete = 1;
         $category->save();
         return redirect()->back()->with('success', "Danh mục phụ đã được xóa thành công");
+    }
+
+    public function get_sub_category(Request $request)
+    {
+        $category_id        = $request->id;
+        $get_sub_category   = SubCategoryModel::getRecordSubCategory($category_id);
+        $html               = '';
+        $html              .= '<option value="">Chọn danh mục</option>';
+
+        foreach ($get_sub_category as $value) {
+            $html  .= '<option value="' . $value->id . '">' . $value->name . '</option>';
+        }
+
+        $json['html'] = $html;
+        echo json_encode($json);
     }
 }
