@@ -131,6 +131,14 @@ class ProductController extends Controller
         }
     }
 
+    public function delete($id)
+    {
+        $product = ProductModel::getSingle($id);
+        $product->is_delete = 1;
+        $product->save();
+        return redirect()->back()->with('success', "Sản phẩm đã được xóa thành công");
+    }
+
     public function image_delete($id)
     {
         $image = ProductImageModel::getSingle($id);

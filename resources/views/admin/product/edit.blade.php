@@ -314,7 +314,8 @@
 @section('script')
     <script src="{{ url('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
     {{-- <script src="{{ url('assets/dist/jquery-ui.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> --}}
+    
     <script src="{{ url('assets/dist/jquery-ui.js') }}"></script>
 
     <script type="text/javascript">
@@ -334,8 +335,7 @@
                             "_token": "{{ csrf_token() }}"
                         },
                         dataType: "json",
-                        success: function(data) {                           
-                        },
+                        success: function(data) {},
                         error: function(data) {}
                     });
                 }
@@ -347,20 +347,21 @@
         });
 
 
+
         var i = 100000;
         $('body').delegate('.AddSize', 'click', function() {
             i++;
             var html = '<tr id="delete' + i + '">\n\
-                    <td>\n\
-                        <input type="text" name="size[' + i + '][name]" placeholder="Nhập tên" class="form-control">\n\
-                    </td>\n\
-                    <td>\n\
-                        <input type="text" name="size[' + i + '][price]" placeholder="Nhập giá" class="form-control">\n\
-                    </td>\n\
-                    <td style="width: 150px">\n\
-                        <button type="button" id="' + i + '" class="btn btn-danger delete">Xóa</button>\n\
-                    </td>\n\
-                    </tr>';
+                                    <td>\n\
+                                        <input type="text" name="size[' + i + '][name]" placeholder="Nhập tên" class="form-control">\n\
+                                    </td>\n\
+                                    <td>\n\
+                                        <input type="text" name="size[' + i + '][price]" placeholder="Nhập giá" class="form-control">\n\
+                                    </td>\n\
+                                    <td style="width: 150px">\n\
+                                        <button type="button" id="' + i + '" class="btn btn-danger delete">Xóa</button>\n\
+                                    </td>\n\
+                                    </tr>';
             $('#AppendSize').append(html);
         });
 

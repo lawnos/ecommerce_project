@@ -57,7 +57,7 @@
                                     <tbody>
                                         @foreach ($getRecord as $value)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $value->id }}</td>
                                                 <td>{{ $value->name }}</td>
                                                 <td>{{ $value->category_name }}</td>
                                                 <td>{{ $value->slug }}</td>

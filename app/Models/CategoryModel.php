@@ -15,12 +15,20 @@ class CategoryModel extends Model
         return self::find($id);
     }
 
+    static public function getSingleSlug($slug)
+    {
+        return self::where('slug', '=', $slug)
+            ->where('category.status', '=', 0)
+            ->where('category.is_delete', '=', 0)
+            ->first();
+    }
+
     static public function getRecord()
     {
         return self::select('category.*', 'users.name as created_by_name')
             ->join('users', 'users.id', '=', 'category.created_by')
             ->where('category.is_delete', '=', 0)
-            ->orderBy('category.id', 'desc')
+            ->orderBy('category.id', 'asc')
             ->get();
     }
 
@@ -32,5 +40,21 @@ class CategoryModel extends Model
             ->where('category.status', '=', 0)
             ->orderBy('category.name', 'asc')
             ->get();
+    }
+
+    static public function getRecordMenu()
+    {
+        return self::select('category.*')
+            ->join('users', 'users.id', '=', 'category.created_by')
+            ->where('category.is_delete', '=', 0)
+            ->where('category.status', '=', 0)
+            ->get();
+    }
+
+    public function getSubCategory()
+    {
+        return $this->hasMany(SubCategoryModel::class, "category_id")
+            ->where('sub_category.status', '=', 0)
+            ->where('sub_category.is_delete', '=', 0);
     }
 }

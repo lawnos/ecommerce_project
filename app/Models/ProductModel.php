@@ -25,6 +25,44 @@ class ProductModel extends Model
             ->paginate(15);
     }
 
+    static public function getProduct($category_id = '', $subcategory_id = '')
+    {
+
+        $return = ProductModel::select(
+            'product.*',
+            'users.name as created_by_name',
+            'category.name as category_name',
+            'category.slug as category_slug',
+            'sub_category.name as sub_category_name',
+            'sub_category.slug as sub_category_slug',
+        )
+            ->join('users', 'users.id', '=', 'product.created_by')
+            ->join('category', 'category.id', '=', 'product.category_id')
+            ->join('sub_category', 'sub_category.id', '=', 'product.sub_category_id');
+
+        if (!empty($category_id)) {
+            $return = $return->where('product.category_id', '=', $category_id);
+        }
+
+        if (!empty($subcategory_id)) {
+            $return = $return->where('product.sub_category_id', '=', $subcategory_id);
+        }
+
+        $return = $return->where('product.is_delete', '=', 0)
+            ->where('product.status', '=', 0)
+            ->orderBy('product.id', 'desc')
+            ->paginate(20);
+
+        return $return;
+    }
+
+    static function getImageSingle($product_id)
+    {
+        return ProductImageModel::where('product_id', '=', $product_id)
+            ->orderBy('order_by', 'asc')
+            ->first();
+    }
+
     static public function checkSlug($slug)
     {
         return self::where('slug', '=', $slug)->count();
@@ -42,6 +80,6 @@ class ProductModel extends Model
 
     public function getImage()
     {
-        return $this->hasMany(ProductImageModel::class, "product_id")->orderBy('order_by','asc');
+        return $this->hasMany(ProductImageModel::class, "product_id")->orderBy('order_by', 'asc');
     }
 }

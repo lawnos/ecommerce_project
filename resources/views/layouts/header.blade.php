@@ -3,19 +3,20 @@
         <div class="container">
             <div class="header-left">
                 <div class="header-dropdown">
-                    <a href="#">Usd</a>
+                    <a href="#">VND</a>
                     <div class="header-menu">
                         <ul>
-                            <li><a href="#">Usd</a></li>
+                            <li><a href="">VND</a></li>
                         </ul>
-                    </div><!-- End .header-menu -->
-                </div><!-- End .header-dropdown -->
+                    </div>
+                </div>
 
                 <div class="header-dropdown">
-                    <a href="#">Eng</a>
+                    <a href="#">VIE</a>
                     <div class="header-menu">
                         <ul>
-                            <li><a href="#">English</a></li>
+                            <li><a href="">Tiếng Việt</a></li>
+                            <li><a href="">Tiếng Anh</a></li>
                         </ul>
                     </div>
                 </div>
@@ -24,18 +25,17 @@
             <div class="header-right">
                 <ul class="top-menu">
                     <li>
-                        <a href="#">Links</a>
                         <ul>
-                            <li><a href="tel:#"><i class="icon-phone"></i>Call: +84 866 228 460</a></li>
+                            <li><a href="tel:#"><i class="icon-phone"></i>Liên hệ: +84 866 228 460</a></li>
                             <li>
                                 <a href="{{ url('wishlist') }}">
-                                    <i class="icon-heart-o"></i>My Wishlist
+                                    <i class="icon-heart-o"></i>Sản phẩm yêu thích
                                     <span>(3)</span>
                                 </a>
                             </li>
-                            <li><a href="{{ url('about') }}">About Us</a></li>
-                            <li><a href="{{ url('contact') }}">Contact Us</a></li>
-                            <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                            <li><a href="{{ url('about') }}">Về chúng tôi</a></li>
+                            <li><a href="{{ url('contact') }}">Liên hệ chúng tôi</a></li>
+                            <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Đăng nhập</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -59,38 +59,37 @@
                 <nav class="main-nav">
                     <ul class="menu sf-arrows">
                         <li class=" active">
-                            <a href="{{ url('') }}">Home</a>
+                            <a href="{{ url('') }}">Trang chủ</a>
                         </li>
                         <li>
-                            <a href="category.html" class="sf-with-ul">Shop</a>
+                            <a href="javascript:;" class="sf-with-ul">Cửa hàng</a>
 
                             <div class="megamenu megamenu-md">
                                 <div class="row no-gutters">
                                     <div class="col-md-12">
                                         <div class="menu-col">
                                             <div class="row">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    <div class="col-md-4" style="margin-bottom: 20px">
-                                                        <a href="" class="menu-title">Shop with sidebar</a>
-
-                                                        <ul>
-                                                            <li><a href="category-list.html">Shop List</a></li>
-                                                            <li><a href="category-2cols.html">Shop Grid 2 Columns</a>
-                                                            </li>
-                                                            <li><a href="category.html">Shop Grid 3 Columns</a></li>
-                                                            <li><a href="category-4cols.html">Shop Grid 4 Columns</a>
-                                                            </li>
-                                                            <li><a href="category-market.html"><span>Shop Market<span
-                                                                            class="tip tip-new">New</span></span></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                @endfor
+                                                @php
+                                                    $getCategoryHeader = App\Models\CategoryModel::getRecordMenu();
+                                                @endphp
+                                                @foreach ($getCategoryHeader as $value_category_header)
+                                                    @if (!empty($value_category_header->getSubCategory->count()))
+                                                        <div class="col-md-4" style="margin-bottom: 20px">
+                                                            <a href="{{ url($value_category_header->slug) }}"
+                                                                class="menu-title">{{ $value_category_header->name }}</a>
+                                                            <ul>
+                                                                @foreach ($value_category_header->getSubCategory as $value_sub)
+                                                                    <li><a
+                                                                            href="{{ url($value_category_header->slug . '/' . $value_sub->slug) }}">{{ $value_sub->name }}</a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </li>

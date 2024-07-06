@@ -8,6 +8,11 @@ class HomeController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $data['meta_title']         = 'TrendyThreads';
+        $data['meta_desription']    = '';
+        $data['meta_keywords']      = '';
+  
+  
+        return view('home', $data);
     }
 }
