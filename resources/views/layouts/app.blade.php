@@ -22,12 +22,13 @@
     <link rel="mask-icon" href="{{ asset('client/assets/images/icons/safari-pinned-tab.svg') }}" color="#666666">
     <link rel="shortcut icon" href="{{ asset('client/assets/images/icons/favicon.ico') }}">
 
-    <!-- Plugins CSS File -->
+   
     <link rel="stylesheet" href="{{ asset('client/assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('client/assets/css/plugins/owl-carousel/owl.carousel.css') }}">
     <link rel="stylesheet" href="{{ asset('client/assets/css/plugins/magnific-popup/magnific-popup.css') }}">
-    <!-- Main CSS File -->
+   
     <link rel="stylesheet" href="{{ asset('client/assets/css/style.css') }}">
+    @yield('style')
 </head>
 
 <body>
@@ -35,15 +36,15 @@
         @include('layouts.header')
         @yield('content')
         @include('layouts.footer')
-    </div><!-- End .page-wrapper -->
+    </div>
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+   
+    <div class="mobile-menu-overlay"></div>
 
     @include('layouts.mobile')
 
-    <!-- Sign in / Register Modal -->
+   
     <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -72,13 +73,13 @@
                                             <label for="singin-email">Tên người dùng hoặc địa chỉ email *</label>
                                             <input type="text" class="form-control" id="singin-email"
                                                 name="singin-email" required>
-                                        </div><!-- End .form-group -->
+                                        </div>
 
                                         <div class="form-group">
                                             <label for="singin-password">Mật khẩu *</label>
                                             <input type="password" class="form-control" id="singin-password"
                                                 name="singin-password" required>
-                                        </div><!-- End .form-group -->
+                                        </div>
 
                                         <div class="form-footer">
                                             <button type="submit" class="btn btn-outline-primary-2">
@@ -121,13 +122,13 @@
                                             <label for="register-email">Địa chỉ email *</label>
                                             <input type="email" class="form-control" id="register-email"
                                                 name="register-email" required>
-                                        </div><!-- End .form-group -->
+                                        </div>
 
                                         <div class="form-group">
                                             <label for="register-password">Mật khẩu *</label>
                                             <input type="password" class="form-control" id="register-password"
                                                 name="register-password" required>
-                                        </div><!-- End .form-group -->
+                                        </div>
 
                                         <div class="form-footer">
                                             <button type="submit" class="btn btn-outline-primary-2">
@@ -140,8 +141,8 @@
                                                     id="register-policy" required>
                                                 <label class="custom-control-label" for="register-policy">Tôi đồng ý
                                                     với <a href="#">chính sách bảo mật</a> *</label>
-                                            </div><!-- End .custom-checkbox -->
-                                        </div><!-- End .form-footer -->
+                                            </div>
+                                        </div>
                                     </form>
                                     <div class="form-choice">
                                         <p class="text-center">hoặc đăng nhập bằng</p>
@@ -169,7 +170,7 @@
         </div>
     </div>
 
-    <div class="container newsletter-popup-container mfp-hide" id="newsletter-popup-form">
+    {{-- <div class="container newsletter-popup-container mfp-hide" id="newsletter-popup-form">
         <div class="row justify-content-center">
             <div class="col-10">
                 <div class="row no-gutters bg-white newsletter-popup-content">
@@ -204,7 +205,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <script src="{{ asset('client/assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('client/assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -213,8 +214,9 @@
     <script src="{{ asset('client/assets/js/superfish.min.js') }}"></script>
     <script src="{{ asset('client/assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('client/assets/js/jquery.magnific-popup.min.js') }}"></script>
-
     <script src="{{ asset('client/assets/js/main.js') }}"></script>
+
+    @yield('script')
 </body>
 
 
