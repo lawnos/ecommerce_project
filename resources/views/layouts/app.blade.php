@@ -12,6 +12,7 @@
     @if (!empty($meta_description))
         <meta name="description" content="{{ $meta_description }}">
     @endif
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('client/assets/images/icons/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32"

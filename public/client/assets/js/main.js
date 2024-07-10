@@ -161,36 +161,34 @@ $(document).ready(function () {
         });
     }
 
-    // Slider For category pages / filter price
-    if (typeof noUiSlider === 'object') {
-        var priceSlider = document.getElementById('price-slider');
+   
+    // if (typeof noUiSlider === 'object') {
+    //     var priceSlider = document.getElementById('price-slider');
 
-        // Check if #price-slider elem is exists if not return
-        // to prevent error logs
-        if (priceSlider == null) return;
+    //     if (priceSlider == null) return;
 
-        noUiSlider.create(priceSlider, {
-            start: [0, 100000000],
-            connect: true,
-            step: 500000,
-            margin: 1000000,
-            range: {
-                'min': 0,
-                'max': 300000000
-            },
-            tooltips: true,
-            format: wNumb({
-                decimals: 0,
-                thousand: ',',
-                suffix: '₫'
-            })
-        });
+    //     noUiSlider.create(priceSlider, {
+    //         start: [0, 100000000],
+    //         connect: true,
+    //         step: 500000,
+    //         margin: 1000000,
+    //         range: {
+    //             'min': 0,
+    //             'max': 300000000
+    //         },
+    //         tooltips: true,
+    //         format: wNumb({
+    //             decimals: 0,
+    //             thousand: ',',
+    //             suffix: '₫'
+    //         })
+    //     });
 
-        // Update Price Range
-        priceSlider.noUiSlider.on('update', function (values, handle) {
-            $('#filter-price-range').text(values.join(' - '));
-        });
-    }
+       
+    //     priceSlider.noUiSlider.on('update', function (values, handle) {
+    //         $('#filter-price-range').text(values.join(' - '));
+    //     });
+    // }
 
     // Product countdown
     if ($.fn.countdown) {

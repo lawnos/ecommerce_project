@@ -70,10 +70,17 @@
                     <aside class="col-lg-3 order-lg-first">
                         <form action="" id="FilterForm" method="POST">
                             {{ csrf_field() }}
+                            
+                            <input type="hidden" name="old_sub_category_id"
+                                value="{{ !empty($getSubCategory) ? $getSubCategory->id : '' }}">
+                            <input type="hidden" name="old_category_id"
+                                value="{{ !empty($getCategory) ? $getCategory->id : '' }}">
+
                             <input type="hidden" name="sub_category_id" id="get_sub_category_id">
                             <input type="hidden" name="brand_id" id="get_brand_id">
                             <input type="hidden" name="color_id" id="get_color_id">
-                            <input type="hidden" name="sort_by_id" id="get_sort_by_id">
+                            <input type="hidden" name="start_price" id="get_start_price">
+                            <input type="hidden" name="end_price" id="get_end_price">
                         </form>
                         <div class="sidebar sidebar-shop">
                             <div class="widget widget-clean">
@@ -244,8 +251,14 @@
             FilterForm();
         });
 
+        var xhr;
+
         function FilterForm() {
-            $.ajax({
+            if (xhr && xhr.readyState != 4) {
+                xhr.abort();
+            }
+
+            xhr = $.ajax({
                 type: "POST",
                 url: "{{ url('get_filter_product_ajax') }}",
                 data: $('#FilterForm').serialize(),
@@ -255,6 +268,43 @@
                 },
                 error: function(data) {
                     console.error('Error:', data);
+                }
+            });
+        }
+
+        var i = 0;
+
+        if (typeof noUiSlider === 'object') {
+            var priceSlider = document.getElementById('price-slider');
+
+            noUiSlider.create(priceSlider, {
+                start: [0, 150000000],
+                connect: true,
+                step: 500000,
+                margin: 1000000,
+                range: {
+                    'min': 0,
+                    'max': 300000000
+                },
+                tooltips: true,
+                format: wNumb({
+                    decimals: 0,
+                    thousand: ',',
+                    suffix: '₫'
+                })
+            });
+
+
+            priceSlider.noUiSlider.on('update', function(values, handle) {
+                var start_price = values[0].replace(/[^0-9]/g, '');
+                var end_price = values[1].replace(/[^0-9]/g, '');
+                $('#get_start_price').val(start_price);
+                $('#get_end_price').val(end_price);
+                $('#filter-price-range').text(values.join(' - '));
+                if (i == 0 || i == 1) {
+                    i++;
+                } else {
+                    FilterForm();
                 }
             });
         }
