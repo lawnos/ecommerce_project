@@ -100,13 +100,14 @@
 
             <div class="header-right">
                 <div class="header-search">
-                    <a href="#" class="search-toggle" role="button" title="Search"><i
+                    <a href="#" class="search-toggle" role="button" title="Tìm kiếm"><i
                             class="icon-search"></i></a>
                     <form action="{{ url('search') }}" method="get">
                         <div class="header-search-wrapper">
-                            <label for="q" class="sr-only">Search</label>
+                            <label for="q" class="sr-only">Tìm kiếm</label>
                             <input type="search" class="form-control" name="q" id="q"
-                                placeholder="Search in..." required>
+                                placeholder="Tìm kiếm..."
+                                value="{{ !empty(Request::get('q')) ? Request::get('q') : '' }}" required>
                         </div>
                     </form>
                 </div>

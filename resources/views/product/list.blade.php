@@ -13,8 +13,10 @@
             <div class="container">
                 @if (!empty($getSubCategory))
                     <h1 class="page-title">{{ $getSubCategory->name }}</h1>
-                @else
+                @elseif(!empty($getCategory))
                     <h1 class="page-title">{{ $getCategory->name }}</h1>
+                @else
+                    <h1 class="page-title">Tìm kiếm : {{ Request::get('q') }}</h1>
                 @endif
 
             </div>
@@ -29,7 +31,7 @@
                             <a href="{{ url($getCategory->slug) }}">{{ $getCategory->name }}</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ $getSubCategory->name }}</li>
-                    @else
+                    @elseif(!empty($getCategory))
                         <li class="breadcrumb-item active" aria-current="page">{{ $getCategory->name }}</li>
                     @endif
 
@@ -44,7 +46,8 @@
                         <div class="toolbox">
                             <div class="toolbox-left">
                                 <div class="toolbox-info">
-                                    Showing <span>9 of 56</span> Products
+                                    Hiển thị <span>{{ $getProduct->perPage() }} trên {{ $getProduct->total() }}</span> sản
+                                    phẩm
                                 </div>
                             </div>
 
@@ -65,12 +68,19 @@
                         <div id="getProductAjax">
                             @include('product._list')
                         </div>
+                        <div style="text-align: center">
+                            <a href="javascript:;" class="btn btn-primary LoadMore"
+                                @if (empty($page)) style="display: none;" @endif
+                                data-page="{{ $page }}">Xem thêm</a>
+                        </div>
                     </div>
 
                     <aside class="col-lg-3 order-lg-first">
                         <form action="" id="FilterForm" method="POST">
                             {{ csrf_field() }}
-                            
+                            <input type="hidden" name="old_sub_category_id"
+                                value="{{ !empty(Request::get('q')) ? Request::get('q') : '' }}">
+
                             <input type="hidden" name="old_sub_category_id"
                                 value="{{ !empty($getSubCategory) ? $getSubCategory->id : '' }}">
                             <input type="hidden" name="old_category_id"
@@ -88,32 +98,36 @@
                                 <a href="#" class="sidebar-filter-clear">Làm mới</a>
                             </div>
 
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title">
-                                    <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
-                                        aria-controls="widget-1">
-                                        Danh mục
-                                    </a>
-                                </h3>
+                            @if (!empty($getSubCategoryFilter))
+                                <div class="widget widget-collapsible">
+                                    <h3 class="widget-title">
+                                        <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
+                                            aria-controls="widget-1">
+                                            Danh mục
+                                        </a>
+                                    </h3>
 
-                                <div class="collapse show" id="widget-1">
-                                    <div class="widget-body">
-                                        <div class="filter-items filter-items-count">
-                                            @foreach ($getSubCategoryFilter as $filter_sub)
-                                                <div class="filter-item">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input ChangeCategory"
-                                                            id="cat-{{ $filter_sub->id }}" value="{{ $filter_sub->id }}">
-                                                        <label class="custom-control-label"
-                                                            for="cat-{{ $filter_sub->id }}">{{ $filter_sub->name }}</label>
+                                    <div class="collapse show" id="widget-1">
+                                        <div class="widget-body">
+                                            <div class="filter-items filter-items-count">
+                                                @foreach ($getSubCategoryFilter as $filter_sub)
+                                                    <div class="filter-item">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox"
+                                                                class="custom-control-input ChangeCategory"
+                                                                id="cat-{{ $filter_sub->id }}"
+                                                                value="{{ $filter_sub->id }}">
+                                                            <label class="custom-control-label"
+                                                                for="cat-{{ $filter_sub->id }}">{{ $filter_sub->name }}</label>
+                                                        </div>
+                                                        <span class="item-count">{{ $filter_sub->TotalProduct() }}</span>
                                                     </div>
-                                                    <span class="item-count">{{ $filter_sub->TotalProduct() }}</span>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
 
                             <div class="widget widget-collapsible">
                                 <h3 class="widget-title">
@@ -265,12 +279,49 @@
                 dataType: "json",
                 success: function(data) {
                     $('#getProductAjax').html(data.success);
+                    $('.LoadMore').attr('data-page', data.page);
+
+                    if (data.page == 0) {
+                        $('.LoadMore').hide();
+                    } else {
+                        $('.LoadMore').show();
+                    }
                 },
                 error: function(data) {
-                    console.error('Error:', data);
+                    // console.error('Error:', data);
                 }
             });
         }
+
+        $('body').delegate('.LoadMore', 'click', function() {
+            var page = $(this).attr('data-page');
+
+            $('.LoadMore').html('Đang tải ...');
+
+            if (xhr && xhr.readyState != 4) {
+                xhr.abort();
+            }
+
+            xhr = $.ajax({
+                type: "POST",
+                url: "{{ url('get_filter_product_ajax') }}?page=" + page,
+                data: $('#FilterForm').serialize(),
+                dataType: "json",
+                success: function(data) {
+                    $('#getProductAjax').append(data.success);
+                    $('.LoadMore').attr('data-page', data.page);
+                    $('.LoadMore').html('Xem thêm');
+                    if (data.page == 0) {
+                        $('.LoadMore').hide();
+                    } else {
+                        $('.LoadMore').show();
+                    }
+                },
+                error: function(data) {
+                    // console.error('Error:', data);
+                }
+            });
+        });
 
         var i = 0;
 

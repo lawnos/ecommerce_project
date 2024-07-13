@@ -8,7 +8,7 @@
                 <div class="product product-7 text-center">
                     <figure class="product-media">
                         {{-- <span class="product-label label-new">New</span> --}}
-                        <a href="product.html">
+                        <a href="{{ url($value->slug) }}">
                             @if (!empty($getProductImage && !empty($getProductImage->getLogo())))
                                 <img src="{{ $getProductImage->getLogo() }}" style="width: 280px; height: 280px;"
                                     alt="{{ $value->title }}" class="product-image">
@@ -50,4 +50,3 @@
         @endforeach
     </div>
 </div>
-{!! $getProduct->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}

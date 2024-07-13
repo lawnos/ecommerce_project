@@ -14,6 +14,8 @@ use App\Models\ProductSizeModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -112,19 +114,19 @@ class ProductController extends Controller
             if (!empty($request->file('image'))) {
                 foreach ($request->file('image') as $value) {
                     if ($value->isValid()) {
-                        $ext        = $value->getClientOriginalExtension();
-                        $randomStr  = $product->id . Str::random(20);
-                        $filename   = strtolower($randomStr) . '.' . $ext;
-                        $value->move('uploads/product/', $filename);
+                        // Lưu ảnh vào thư mục đúng trong storage
+                        $path = $value->store('public/uploads/product');
+                        $filename = basename($path);
 
                         $imageUpload                    = new ProductImageModel;
                         $imageUpload->image_name        = $filename;
-                        $imageUpload->image_extension   = $ext;
+                        $imageUpload->image_extension   = $value->getClientOriginalExtension();
                         $imageUpload->product_id        = $product->id;
                         $imageUpload->save();
                     }
                 }
             }
+
             return redirect()->back()->with('success', "Sản phầm đã được sửa thành công");
         } else {
             abort(404);
@@ -142,9 +144,11 @@ class ProductController extends Controller
     public function image_delete($id)
     {
         $image = ProductImageModel::getSingle($id);
-        if (!empty($image->getLogo())) {
-            unlink('uploads/product/' . $image->image_name);
+
+        if (!empty($image->image_name) && Storage::exists('public/uploads/product/' . $image->image_name)) {
+            Storage::delete('public/uploads/product/' . $image->image_name);
         }
+
         $image->delete();
 
         return redirect()->back()->with('success', 'Xoá ảnh thành công');
