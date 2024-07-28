@@ -12,7 +12,7 @@
                         <h1>Thêm mới màu sắc</h1>
                     </div>
                     <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/brand/list') }}" class="btn btn-primary">Quay lại</a>
+                        <a href="{{ url('admin/color/list') }}" class="btn btn-primary">Quay lại</a>
                     </div>
                 </div>
             </div>

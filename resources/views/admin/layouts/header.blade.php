@@ -188,6 +188,20 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('admin/discount_code/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'discount_code') active @endif">
+                        <i class="nav-icon fas fa-ticket-alt"></i>
+                        <p>Mã giảm giá</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/shipping_charge/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'shipping_charge') active @endif">
+                        <i class="nav-icon fas fa-shipping-fast"></i>
+                        <p>Phí vận chuyển</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url('admin/logout') }}" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>Đăng xuất</p>

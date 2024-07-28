@@ -177,7 +177,7 @@
                                 </div>
                             </div>
 
-                            <div class="widget widget-collapsible">
+                            {{-- <div class="widget widget-collapsible">
                                 <h3 class="widget-title">
                                     <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true"
                                         aria-controls="widget-5">
@@ -197,7 +197,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </aside>
                 </div>

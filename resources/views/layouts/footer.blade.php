@@ -30,7 +30,7 @@
 
                         <ul class="widget-list">
                             <li><a href="{{ url('about') }}">Về TrendyThreads</a></li>
-                            <li><a href="#">How to shop on TrendyThreads</a></li>
+                            <li><a href="#">Cách mua sắm trên TrendyThreads</a></li>
                             <li><a href="#">FAQ</a></li>
                             <li><a href="{{ url('contact') }}">Liên hệ chúng tôi</a></li>
                             <li><a href="#signin-modal" data-toggle="modal">Đăng nhập</a></li>
@@ -57,8 +57,8 @@
                         <h4 class="widget-title">Tài khoản của tôi</h4>
 
                         <ul class="widget-list">
-                            <li><a href="#">Đăng nhập</a></li>
-                            <li><a href="cart.html">Xem giỏ hàng</a></li>
+                            <li><a href="#signin-modal" data-toggle="modal">Đăng nhập</a></li>
+                            <li><a href="{{ url('cart') }}">Xem giỏ hàng</a></li>
                             <li><a href="#">Sản phẩm yêu thích</a></li>
                             <li><a href="#">Theo dõi đơn hàng của tôi</a></li>
                             <li><a href="#">Giúp đỡ</a></li>

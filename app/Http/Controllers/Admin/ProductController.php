@@ -114,8 +114,9 @@ class ProductController extends Controller
             if (!empty($request->file('image'))) {
                 foreach ($request->file('image') as $value) {
                     if ($value->isValid()) {
-                        // Lưu ảnh vào thư mục đúng trong storage
+                      
                         $path = $value->store('public/uploads/product');
+
                         $filename = basename($path);
 
                         $imageUpload                    = new ProductImageModel;
@@ -126,7 +127,6 @@ class ProductController extends Controller
                     }
                 }
             }
-
             return redirect()->back()->with('success', "Sản phầm đã được sửa thành công");
         } else {
             abort(404);

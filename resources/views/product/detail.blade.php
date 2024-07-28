@@ -63,64 +63,72 @@
                                 </div>
 
                                 <div class="product-price">
-                                    ₫{{ number_format($getProduct->price) }}
+                                    ₫<span id="getTotalPrice">{{ number_format($getProduct->price) }}</span>
                                 </div>
 
                                 <div class="product-content">
                                     <p>{{ $getProduct->short_description }}</p>
                                 </div>
 
-                                @if (!empty($getProduct->getColor->count()))
-                                    <div class="details-filter-row details-row-size">
-                                        <label>Màu sắc:</label>
-                                        <div class="select-custom">
-                                            <select name="size" id="size" class="form-control">
-                                                <option value="" selected="selected">Chọn màu:</option>
-                                                @foreach ($getProduct->getColor as $color)
-                                                    <option value="{{ $color->getColor->id }}">
-                                                        {{ $color->getColor->name }}
+                                <form action="{{ url('product/add-to-cart') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="product_id" value="{{ $getProduct->id }}">
+                                    @if (!empty($getProduct->getColor->count()))
+                                        <div class="details-filter-row details-row-size">
+                                            <label>Màu sắc:</label>
+                                            <div class="select-custom">
+                                                <select name="color_id" id="color_id" required class="form-control">
+                                                    <option value="" selected="selected">Chọn màu:</option>
+                                                    @foreach ($getProduct->getColor as $color)
+                                                        <option value="{{ $color->getColor->id }}">
+                                                            {{ $color->getColor->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if (!empty($getProduct->getSize->count()))
+                                        <div class="details-filter-row details-row-size">
+                                            <label for="size">Size:</label>
+                                            <div class="select-custom">
+                                                <select name="size_id" id="size" required
+                                                    class="form-control getPrice">
+                                                    <option data-price="0" value="" selected="selected">Chọn size:
                                                     </option>
-                                                @endforeach
-                                            </select>
+                                                    @foreach ($getProduct->getSize as $size)
+                                                        <option data-price="{{ !empty($size->price) ? $size->price : 0 }}"
+                                                            value="{{ $size->id }}">
+                                                            {{ $size->name }} @if (!empty($size->price))
+                                                                (₫{{ number_format($size->price) }})
+                                                            @endif
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <div class="details-filter-row details-row-size">
+                                        <label for="qty">Số lượng:</label>
+                                        <div class="product-details-quantity">
+                                            <input type="number" id="qty" name="qty" class="form-control"
+                                                value="1" min="1" max="100" required step="1"
+                                                data-decimals="0" required>
                                         </div>
                                     </div>
-                                @endif
 
-                                @if (!empty($getProduct->getSize->count()))
-                                    <div class="details-filter-row details-row-size">
-                                        <label for="size">Size:</label>
-                                        <div class="select-custom">
-                                            <select name="size" id="size" class="form-control">
-                                                <option value="#" selected="selected">Chọn size:</option>
-                                                @foreach ($getProduct->getSize as $size)
-                                                    <option value="{{ $size->id }}">
-                                                        {{ $size->name }} @if (!empty($size->price))
-                                                            (₫{{ number_format($size->price) }})
-                                                        @endif
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                    <div class="product-details-action">
+                                        <button type="submit" class="btn-product btn-cart" style=""><span>thêm giỏ
+                                                hàng</span></button>
+                                        <div class="details-action-wrapper">
+                                            <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Thêm
+                                                    vào yêu thích</span></a>
+
                                         </div>
                                     </div>
-                                @endif
-
-                                <div class="details-filter-row details-row-size">
-                                    <label for="qty">Số lượng:</label>
-                                    <div class="product-details-quantity">
-                                        <input type="number" id="qty" class="form-control" value="1"
-                                            min="1" max="10" step="1" data-decimals="0" required>
-                                    </div>
-                                </div>
-
-                                <div class="product-details-action">
-                                    <a href="#" class="btn-product btn-cart"><span>thêm giỏ hàng</span></a>
-
-                                    <div class="details-action-wrapper">
-                                        <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Thêm
-                                                vào yêu thích</span></a>
-
-                                    </div>
-                                </div>
+                                </form>
 
                                 <div class="product-details-footer">
                                     <div class="product-cat">
@@ -345,4 +353,15 @@
     <script src="{{ url('client/assets/js/bootstrap-input-spinner.js') }}"></script>
     <script src="{{ url('client/assets/js/jquery.elevateZoom.min.js') }}"></script>
     <script src="{{ url('client/assets/js/bootstrap-input-spinner.js') }}"></script>
+
+    <script type="text/javascript">
+        $('.getPrice').change(function() {
+            var product_price = '{{ $getProduct->price }}'
+            var price = $('option:selected', this).attr('data-price');
+            var total = parseFloat(product_price) + parseFloat(price);
+
+            $('#getTotalPrice').html(total);
+
+        });
+    </script>
 @endsection

@@ -42,7 +42,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tên thương hiệu</th>
+                                            <th>Tên màu</th>
                                             <th>Code</th>
                                             <th>Được tạo bởi</th>
                                             <th>Trạng thái</th>
@@ -72,7 +72,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -83,5 +83,4 @@
     </div>
 @endsection
 @section('script')
-    
 @endsection
