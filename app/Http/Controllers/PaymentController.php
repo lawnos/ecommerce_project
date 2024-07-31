@@ -410,7 +410,9 @@ class PaymentController extends Controller
             $getOrder->transaction_id = $getdata->id;
             $getOrder->payment_data = json_encode($getdata);
             $getOrder->save();
+            
             Mail::to($getOrder->email)->send(new OrderInvoiceMail($getOrder));
+
             Cart::clear();
             return redirect('cart')->with('success', "Đặt hàng thành công");
         } else {

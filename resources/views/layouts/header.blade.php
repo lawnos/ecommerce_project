@@ -36,7 +36,7 @@
                             <li><a href="{{ url('about') }}">Về chúng tôi</a></li>
                             <li><a href="{{ url('contact') }}">Liên hệ chúng tôi</a></li>
                             @if (!empty(Auth::check()))
-                                <li><a href="{{ url('admin/logout') }}"><i class="icon-user"></i>Đăng
+                                <li><a href="{{ url('logout') }}"><i class="icon-user"></i>Đăng
                                         xuất</a>
                                 </li>
                             @else

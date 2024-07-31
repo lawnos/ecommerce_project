@@ -120,7 +120,7 @@ Route::group(['middleware' => 'admin'], function () {
 });
 
 Route::get('/',                             [HomeController::class, 'home']);
-
+Route::get('logout',                        [AuthController::class, 'logout_client']);
 Route::post('auth_register',                [AuthController::class, 'auth_register']);
 Route::post('auth_login',                   [AuthController::class, 'auth_login']);
 Route::get('forgot-password',               [AuthController::class, 'forgot_password']);
