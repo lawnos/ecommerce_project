@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderInvoiceMail;
 use App\Models\ColorModel;
 use App\Models\OrderItemModel;
 use App\Models\OrderModel;
@@ -14,6 +15,9 @@ use Illuminate\Http\Request;
 use Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
@@ -173,7 +177,7 @@ class PaymentController extends Controller
             if (!empty($user_id)) {
                 $order->user_id = trim($user_id);
             }
-
+            $order->order_number        = mt_rand(10000000, 99999999);
             $order->first_name          = trim($request->first_name);
             $order->last_name           = trim($request->last_name);
             $order->company_name        = trim($request->company_name);
@@ -220,10 +224,197 @@ class PaymentController extends Controller
             }
             $json['status'] = true;
             $json['message'] = "Đặt hàng thành công";
+            $json['redirect'] = url('checkout/payment?order_id=' . base64_encode($order->id));
         } else {
             $json['status'] = false;
             $json['message'] = $message;
         }
         return response()->json($json);
+    }
+
+    public function payment(Request $request)
+    {
+        if (!empty(Cart::getSubTotal()) && !empty($request->order_id)) {
+            $order_id = base64_decode($request->order_id);
+            $getOrder = OrderModel::getSingle($order_id);
+            if (!empty($getOrder)) {
+
+                if ($getOrder->payment_method == 'cashondelivery') {
+
+                    $getOrder->is_payment = 1;
+                    $getOrder->save();
+                    Mail::to($getOrder->email)->send(new OrderInvoiceMail($getOrder));
+                    Cart::clear();
+                    return redirect('cart')->with('success', "Đặt hàng thành công");
+                } else if ($getOrder->payment_method == 'paypal') {
+
+                    $query                  = array();
+                    $query['business']      = "info@trendythreads.com";
+                    $query['cmd']           = '_xclick';
+                    $query['item_name']     = "TrendyThreads";
+                    $query['no_shipping']   = '1';
+                    $query['item_number']   = $getOrder->id;
+                    $query['amount']        = $getOrder->total_amount;
+                    $query['currency_code'] = '₫';
+                    $query['cancel_return'] = url('checkout');
+                    $query['return']        = url('paypal/success-payment');
+                    $query_string = http_build_query($query);
+
+                    //header('Location: https://www.sandbox.paypal.com/cgi-bin/webscr?' . $query_string);
+                    header('Location: https://www.paypal.com/cgi-bin/webscr?' . $query_string);
+
+                    exit();
+                } else if ($getOrder->payment_method == 'vnpay') {
+
+                    $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+                    $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
+                    $vnp_TmnCode = "DMJPUNDN"; //Mã website tại VNPAY 
+                    $vnp_HashSecret = "RUUV8H3LZ9ZI3XUE3FDXV2E8UX09I3GG"; //Chuỗi bí mật
+
+                    $vnp_TxnRef = $request->input('order_id'); // Sử dụng $request->input() thay vì $_POST
+                    $vnp_OrderInfo = 'Thanh toán đơn hàng';
+                    $vnp_OrderType = 'billpayment';
+                    $vnp_Amount = $request->input('total_amount') * 100;
+                    $vnp_Locale = 'vn';
+                    $vnp_BankCode = '';
+                    $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+                    //Add Params of 2.0.1 Version
+                    $vnp_ExpireDate = $request->input('txtexpire');
+                    //Billing
+
+                    $inputData = array(
+                        "vnp_Version" => "2.1.0",
+                        "vnp_TmnCode" => $vnp_TmnCode,
+                        "vnp_Amount" => $vnp_Amount,
+                        "vnp_Command" => "pay",
+                        "vnp_CreateDate" => date('YmdHis'),
+                        "vnp_CurrCode" => "VND",
+                        "vnp_IpAddr" => $vnp_IpAddr,
+                        "vnp_Locale" => $vnp_Locale,
+                        "vnp_OrderInfo" => $vnp_OrderInfo,
+                        "vnp_OrderType" => $vnp_OrderType,
+                        "vnp_ReturnUrl" => $vnp_Returnurl,
+                        "vnp_TxnRef" => $vnp_TxnRef,
+                        "vnp_ExpireDate" => $vnp_ExpireDate
+                    );
+
+                    if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+                        $inputData['vnp_BankCode'] = $vnp_BankCode;
+                    }
+                    if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
+                        $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+                    }
+
+                    //var_dump($inputData);
+                    ksort($inputData);
+                    $query = "";
+                    $i = 0;
+                    $hashdata = "";
+                    foreach ($inputData as $key => $value) {
+                        if ($i == 1) {
+                            $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                        } else {
+                            $hashdata .= urlencode($key) . "=" . urlencode($value);
+                            $i = 1;
+                        }
+                        $query .= urlencode($key) . "=" . urlencode($value) . '&';
+                    }
+
+                    $vnp_Url = $vnp_Url . "?" . $query;
+                    if (isset($vnp_HashSecret)) {
+                        $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+                        $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+                    }
+                    $returnData = array(
+                        'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+                    );
+                    if (isset($_POST['payment_method'])) {
+                        header('Location: ' . $vnp_Url);
+                        die();
+                    } else {
+                        echo json_encode($returnData);
+                    }
+                } else if ($getOrder->payment_method == 'card') {
+                    Stripe::setApiKey(env('STRIPE_SECRET'));
+                    $finalprice = $getOrder->total_amount * 100;
+
+                    $session = \Stripe\Checkout\Session::create([
+                        'payment_method_types' => ['card'],
+                        'customer_email' => $getOrder->email,
+                        'line_items' => [[
+                            'price_data' => [
+                                'currency' => 'vnd',
+                                'product_data' => [
+                                    'name' => 'Trendy Threads'
+                                ],
+                                'unit_amount' => intval($finalprice),
+                            ],
+                            'quantity' => 1,
+                        ]],
+                        'mode' => 'payment',
+                        'success_url' => url('stripe/payment-success'),
+                        'cancel_url' => url('checkout'),
+                    ]);
+
+                    $getOrder->stripe_session_id = $session['id'];
+                    $getOrder->save();
+                    $data['session_id'] = $session['id'];
+                    Session::put('stripe_session_id', $session['id']);
+                    $data['setPublicKey'] = env('STRIPE_KEY');
+                    return view('payment.stripe_charge', $data);
+                }
+            } else {
+                abort(404);
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function paypal_success_payment(Request $request)
+    {
+        if (!empty($request->item_number) && !empty($request->st) && $request->st == 'Completed') {
+            $getOrder = OrderModel::getSingle($request->item_number);
+
+            if (!empty($getOrder)) {
+                $getOrder->is_payment = 1;
+                $getOrder->transaction_id = $request->tx;
+                $getOrder->payment_data = json_encode($request->all());
+
+                $getOrder->save();
+                Mail::to($getOrder->email)->send(new OrderInvoiceMail($getOrder));
+
+                Cart::clear();
+
+                return redirect('cart')->with('success', "Đặt hàng thành công");
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function vnpay_success_payment(Request $request)
+    {
+    }
+
+    public function stripe_payment_success(Request $request)
+    {
+        $trans_id  = Session::get('stripe_session_id');
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $getdata = \Stripe\Checkout\Session::retrieve($trans_id);
+
+        $getOrder = OrderModel::where('stripe_session_id', '=', $getdata->id)->first();
+
+        if (!empty($getorder) && !empty($getdata->id) && $getdata->id == $getOrder->stripe_session_id) {
+            $getOrder->is_payment = 1;
+            $getOrder->transaction_id = $getdata->id;
+            $getOrder->payment_data = json_encode($getdata);
+            $getOrder->save();
+            Mail::to($getOrder->email)->send(new OrderInvoiceMail($getOrder));
+            Cart::clear();
+            return redirect('cart')->with('success', "Đặt hàng thành công");
+        } else {
+            return redirect('cart')->with('error', "Do có một số lỗi, vui lòng thử lại");
+        }
     }
 }

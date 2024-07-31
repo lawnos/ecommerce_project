@@ -26,7 +26,7 @@
                                     để nhập mã của bạn</span></label>
                         </form>
                     </div> --}}
-                    <form action="" id="SubmitForm" method="POST">
+                    <form action="{{ url('checkout/payment') }}" id="SubmitForm" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-lg-9">
@@ -90,7 +90,7 @@
                                             khoản?</label>
                                     </div>
                                 @endif
-                                
+
                                 <div class="row" id="showPassword" style="display: none;">
                                     <div class="col-sm-12">
                                         <label>Mật khẩu *</label>
@@ -209,7 +209,13 @@
                                         <div class="custom-control custom-radio">
                                             <input type="radio" id="paypal" name="payment_method" required
                                                 class="custom-control-input" value="paypal">
-                                            <label class="custom-control-label" for="paypal"> PayPal</label>
+                                            <label class="custom-control-label" for="paypal">PayPal</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="vnpay" name="payment_method" required
+                                                class="custom-control-input" value="vnpay">
+                                            <label class="custom-control-label" for="vnpay">VNPAY</label>
                                         </div>
 
                                         <div class="custom-control custom-radio">
@@ -261,7 +267,7 @@
                         if (data.status == false) {
                             alert(data.message)
                         } else {
-                            alert(data.message)
+                            window.location.href = data.redirect;
                         }
                     },
                     error: function(data) {

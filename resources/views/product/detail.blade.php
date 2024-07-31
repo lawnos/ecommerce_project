@@ -356,12 +356,16 @@
 
     <script type="text/javascript">
         $('.getPrice').change(function() {
-            var product_price = '{{ $getProduct->price }}'
-            var price = $('option:selected', this).attr('data-price');
-            var total = parseFloat(product_price) + parseFloat(price);
+            var product_price = parseFloat('{{ $getProduct->price }}');
+            var price = parseFloat($('option:selected', this).attr('data-price'));
+            var total = product_price + price;
 
-            $('#getTotalPrice').html(total);
+            var formattedTotal = total.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: '₫'
+            });
 
+            $('#getTotalPrice').html(formattedTotal);
         });
     </script>
 @endsection

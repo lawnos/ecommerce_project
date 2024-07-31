@@ -12,7 +12,7 @@
         <nav aria-label="breadcrumb" class="breadcrumb-nav">
             <div class="container">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('') }}">Trang chủ</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
                 </ol>
             </div>
@@ -21,6 +21,7 @@
         <div class="page-content">
             <div class="cart">
                 <div class="container">
+                    @include('layouts.message')
                     @if (!empty(Cart::getContent()->count()))
                         <div class="row">
                             <div class="col-lg-9">
@@ -89,7 +90,7 @@
                                     </table>
 
                                     <div class="cart-bottom">
-                                       
+
                                         <button type="submit" class="btn btn-outline-dark-2"><span>CẬP NHẬT GIỎ
                                                 HÀNG</span><i class="icon-refresh"></i></button>
                                     </div>
@@ -105,7 +106,7 @@
                                                 <td>Tổng phụ:</td>
                                                 <td>₫ {{ number_format(Cart::getSubTotal()) }}</td>
                                             </tr>
-                                            
+
 
                                             <tr class="summary-total">
                                                 <td>Tổng:</td>

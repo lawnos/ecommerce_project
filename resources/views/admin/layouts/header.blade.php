@@ -13,10 +13,10 @@
                 <i class="fas fa-search"></i>
             </a>
             <div class="navbar-search-block">
-                <form class="form-inline">
+                <form class="form-inline" method="GET">
                     <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                            aria-label="Search">
+                        <input class="form-control form-control-navbar" type="text" placeholder="Tìm kiếm"
+                            aria-label="Search" value="{{ Request::get('id') }}">
                         <div class="input-group-append">
                             <button class="btn btn-navbar" type="submit">
                                 <i class="fas fa-search"></i>
@@ -171,6 +171,13 @@
                         class="nav-link @if (Request::segment(2) == 'product') active @endif">
                         <i class="nav-icon fas fa-shopping-bag"></i>
                         <p>Sản phẩm</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/order/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'order') active @endif">
+                        <i class="nav-icon fas fa-clipboard-list"></i>
+                        <p>Quản lý đơn hàng</p>
                     </a>
                 </li>
                 <li class="nav-item">

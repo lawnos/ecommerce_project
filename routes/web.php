@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\Admin\ShippingChargeController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
@@ -94,12 +95,12 @@ Route::group(['middleware' => 'admin'], function () {
     //end color
 
     //discount_code
-    Route::get('admin/discount_code/list',         [DiscountCodeController::class, 'list']);
-    Route::get('admin/discount_code/add',          [DiscountCodeController::class, 'add']);
-    Route::post('admin/discount_code/add',         [DiscountCodeController::class, 'insert']);
-    Route::get('admin/discount_code/edit/{id}',    [DiscountCodeController::class, 'edit']);
-    Route::post('admin/discount_code/edit/{id}',   [DiscountCodeController::class, 'update']);
-    Route::get('admin/discount_code/delete/{id}',  [DiscountCodeController::class, 'delete']);
+    Route::get('admin/discount_code/list',          [DiscountCodeController::class, 'list']);
+    Route::get('admin/discount_code/add',           [DiscountCodeController::class, 'add']);
+    Route::post('admin/discount_code/add',          [DiscountCodeController::class, 'insert']);
+    Route::get('admin/discount_code/edit/{id}',     [DiscountCodeController::class, 'edit']);
+    Route::post('admin/discount_code/edit/{id}',    [DiscountCodeController::class, 'update']);
+    Route::get('admin/discount_code/delete/{id}',   [DiscountCodeController::class, 'delete']);
     //end discount_code
 
     //shipping_charge
@@ -110,6 +111,11 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('admin/shipping_charge/edit/{id}',   [ShippingChargeController::class, 'update']);
     Route::get('admin/shipping_charge/delete/{id}',  [ShippingChargeController::class, 'delete']);
     //end shipping_charge
+
+    //order
+    Route::get('admin/order/list',                   [OrderController::class, 'list']);
+    Route::get('admin/order/detail/{id}',            [OrderController::class, 'detail']);
+    //end order
 
 });
 
@@ -130,6 +136,10 @@ Route::post('update_cart',                  [PaymentController::class, 'update_c
 Route::get('cart/delete/{id}',              [PaymentController::class, 'cart_delete']);
 Route::post('product/add-to-cart',          [PaymentController::class, 'add_to_cart']);
 Route::post('checkout/place_order',         [PaymentController::class, 'place_order']);
+Route::get('checkout/payment',              [PaymentController::class, 'payment']);
+Route::get('paypal/success-payment',        [PaymentController::class, 'paypal_success_payment']);
+Route::get('vnpay/success-payment',         [PaymentController::class, 'vnpay_success_payment']);
+Route::get('stripe/payment-success',        [PaymentController::class, 'stripe_payment_success']);
 
 Route::get('search',                        [ProductFront::class, 'getProductSearch']);
 Route::post('get_filter_product_ajax',      [ProductFront::class, 'getFilterProductAjax']);
