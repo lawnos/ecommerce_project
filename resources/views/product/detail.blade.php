@@ -59,7 +59,8 @@
                                     <div class="ratings">
                                         <div class="ratings-val" style="width: 80%;"></div>
                                     </div>
-                                    <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                    <a class="ratings-text" href="#product-review-link" id="review-link">(
+                                        {{ $getProduct->getTotalReview() }} Đánh giá)</a>
                                 </div>
 
                                 <div class="product-price">
@@ -123,9 +124,18 @@
                                         <button type="submit" class="btn-product btn-cart" style=""><span>thêm giỏ
                                                 hàng</span></button>
                                         <div class="details-action-wrapper">
-                                            <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Thêm
-                                                    vào yêu thích</span></a>
-
+                                            @if (!empty(Auth::check()))
+                                                <a href="javascript:;"
+                                                    class="add_to_wishlist add_to_wishlist{{ $getProduct->id }} 
+                                                    {{ !empty($getProduct->checkWishlist($getProduct->id)) ? 'btn-wishlist-add' : '' }} 
+                                                    btn-product btn-wishlist"
+                                                    title="Wishlist" id="{{ $getProduct->id }}"><span>Thêm
+                                                        vào yêu thích</span></a>
+                                            @else
+                                                <a href="#signin-modal" data-toggle="modal" class="btn-product btn-wishlist"
+                                                    title="Wishlist"><span>Thêm
+                                                        vào yêu thích</span></a>
+                                            @endif
                                         </div>
                                     </div>
                                 </form>
@@ -175,7 +185,8 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab"
-                                role="tab" aria-controls="product-review-tab" aria-selected="false">Đánh giá (2)</a>
+                                role="tab" aria-controls="product-review-tab" aria-selected="false">Đánh giá
+                                ({{ $getProduct->getTotalReview() }})</a>
                         </li>
                     </ul>
                 </div>
@@ -207,65 +218,35 @@
                         aria-labelledby="product-review-link">
                         <div class="reviews">
                             <div class="container">
-                                <h3>Reviews (2)</h3>
-                                <div class="review">
-                                    <div class="row no-gutters">
-                                        <div class="col-auto">
-                                            <h4><a href="#">Samanta J.</a></h4>
-                                            <div class="ratings-container">
-                                                <div class="ratings">
-                                                    <div class="ratings-val" style="width: 80%;"></div>
-
+                                <h3>Đánh giá ({{ $getProduct->getTotalReview() }})</h3>
+                                @foreach ($getReviewProduct as $review)
+                                    <div class="review">
+                                        <div class="row no-gutters">
+                                            <div class="col-auto">
+                                                <h4><a href="#">{{ $review->name }}</a></h4>
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val"
+                                                            style="width: {{ $review->getPercent() }}%;"></div>
+                                                    </div>
                                                 </div>
+                                                <span
+                                                    class="review-date">{{ Carbon\Carbon::parse($review->created_at)->diffForHumans() }}</span>
                                             </div>
-                                            <span class="review-date">6 days ago</span>
-                                        </div>
-                                        <div class="col">
-                                            <h4>Good, perfect size</h4>
-
-                                            <div class="review-content">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum
-                                                    dolores assumenda asperiores facilis porro reprehenderit animi culpa
-                                                    atque blanditiis commodi perspiciatis doloremque, possimus, explicabo,
-                                                    autem fugit beatae quae voluptas!</p>
-                                            </div>
-
-                                            <div class="review-action">
-                                                <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
-                                                <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                            <div class="col">
+                                                <p>{{ $review->review }}</p>
+                                                <div class="review-action">
+                                                    <a href="#"><i class="icon-thumbs-up"></i>Thích (2)</a>
+                                                    <a href="#"><i class="icon-thumbs-down"></i>Không thích (0)</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                @endforeach
+                                <div style="padding: 10px; text-align: center;">
+                                    {!! $getReviewProduct->appends(Illuminate\Support\Facades\Request::except('page'))->links('pagination::bootstrap-4') !!}
                                 </div>
 
-                                <div class="review">
-                                    <div class="row no-gutters">
-                                        <div class="col-auto">
-                                            <h4><a href="#">John Doe</a></h4>
-                                            <div class="ratings-container">
-                                                <div class="ratings">
-                                                    <div class="ratings-val" style="width: 100%;"></div>
-
-                                                </div>
-                                            </div>
-                                            <span class="review-date">5 days ago</span>
-                                        </div>
-                                        <div class="col">
-                                            <h4>Very good</h4>
-
-                                            <div class="review-content">
-                                                <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis
-                                                    laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi,
-                                                    quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
-                                            </div>
-
-                                            <div class="review-action">
-                                                <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
-                                                <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -315,9 +296,22 @@
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>thêm vào
-                                            yêu
-                                            thích</span></a>
+
+                                    @if (!empty(Auth::check()))
+                                        <a href="javascript:;" data-toggle="modal"
+                                            class=" add_to_wishlist add_to_wishlist{{ $value->id }} 
+                                            btn-product-icon btn-wishlist btn-expandable 
+                                            {{ !empty($value->checkWishlist($value->id)) ? 'btn-wishlist-add' : '' }}"
+                                            id="{{ $value->id }}" title="Wishlist"><span>thêm vào
+                                                yêu thích</span></a>
+                                    @else
+                                        <a href="#signin-modal" data-toggle="modal"
+                                            class=" btn-product-icon btn-wishlist btn-expandable"
+                                            title=" Wishlist"><span>thêm vào
+                                                yêu thích</span></a>
+                                    @endif
+                                    {{-- <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>thêm vào
+                                            yêu thích</span></a> --}}
                                 </div>
 
                                 <div class="product-action">

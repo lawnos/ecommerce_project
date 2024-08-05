@@ -29,7 +29,7 @@ class CategoryModel extends Model
             ->join('users', 'users.id', '=', 'category.created_by')
             ->where('category.is_delete', '=', 0)
             ->orderBy('category.id', 'asc')
-            ->get();
+            ->paginate(20);
     }
 
     static public function getRecordActive()

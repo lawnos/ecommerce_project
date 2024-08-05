@@ -27,17 +27,25 @@
                     <li>
                         <ul>
                             <li><a href="tel:#"><i class="icon-phone"></i>Liên hệ: +84 866 228 460</a></li>
-                            <li>
-                                <a href="{{ url('wishlist') }}">
-                                    <i class="icon-heart-o"></i>Sản phẩm yêu thích
-                                    <span>(3)</span>
-                                </a>
-                            </li>
+                            @if (!empty(Auth::check()))
+                                <li>
+                                    <a href="{{ url('my-wishlist') }}">
+                                        <i class="icon-heart-o"></i>Sản phẩm yêu thích
+                                        <span>(3)</span>
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="#signin-modal" data-toggle="modal">
+                                        <i class="icon-heart-o"></i>Sản phẩm yêu thích
+                                    </a>
+                                </li>
+                            @endif
                             <li><a href="{{ url('about') }}">Về chúng tôi</a></li>
                             <li><a href="{{ url('contact') }}">Liên hệ chúng tôi</a></li>
                             @if (!empty(Auth::check()))
-                                <li><a href="{{ url('logout') }}"><i class="icon-user"></i>Đăng
-                                        xuất</a>
+                                <li><a href="{{ url('user/dashboard') }}"><i
+                                            class="icon-user"></i>{{ Auth::user()->name }}</a>
                                 </li>
                             @else
                                 <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Đăng nhập</a>

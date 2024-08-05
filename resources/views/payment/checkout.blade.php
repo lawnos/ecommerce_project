@@ -19,13 +19,7 @@
         <div class="page-content">
             <div class="checkout">
                 <div class="container">
-                    {{-- <div class="checkout-discount">
-                        <form action="#">
-                            <input type="text" class="form-control" required id="checkout-discount-input">
-                            <label for="checkout-discount-input" class="text-truncate">Có phiếu giảm giá? <span>Bấm vào đây
-                                    để nhập mã của bạn</span></label>
-                        </form>
-                    </div> --}}
+
                     <form action="{{ url('checkout/payment') }}" id="SubmitForm" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
@@ -34,53 +28,72 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label>Họ *</label>
-                                        <input type="text" name="first_name" class="form-control" required>
+                                        <input type="text" name="first_name" class="form-control"
+                                            value="{{ !empty(Auth::user()->first_name) ? Auth::user()->nafirst_nameme : '' }}"
+                                            required>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label>Tên *</label>
-                                        <input type="text" name="last_name" class="form-control" required>
+                                        <input type="text" name="last_name"
+                                            class="form-control"value="{{ !empty(Auth::user()->last_name) ? Auth::user()->last_name : '' }}"
+                                            required>
                                     </div>
                                 </div>
 
                                 <label>Tên công ty (nếu có)</label>
-                                <input type="text" name="company_name" class="form-control">
+                                <input type="text" name="company_name"
+                                    class="form-control"value="{{ !empty(Auth::user()->company_name) ? Auth::user()->company_name : '' }}">
 
                                 <label>Quốc gia *</label>
-                                <input type="text" name="country" class="form-control" required>
+                                <input type="text" name="country"
+                                    class="form-control"value="{{ !empty(Auth::user()->country) ? Auth::user()->country : '' }}"
+                                    required>
 
-                                <label>Địa chỉ đường phố *</label>
-                                <input type="text" name="address_one" class="form-control"
-                                    placeholder="House number and Street name" required>
-                                <input type="text" name="address_two" class="form-control"
-                                    placeholder="Appartments, suite, unit etc ..." required>
+                                <label>Địa chỉ *</label>
+                                <input type="text" name="address_one"
+                                    class="form-control"value="{{ !empty(Auth::user()->address_one) ? Auth::user()->address_one : '' }}"
+                                    placeholder="Địa chỉ 1" required>
+                                <input type="text" name="address_two"
+                                    class="form-control"value="{{ !empty(Auth::user()->address_two) ? Auth::user()->address_two : '' }}"
+                                    placeholder="Địa chỉ 2">
 
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label>Thị trấn / Thành phố *</label>
-                                        <input type="text" name="city" class="form-control" required>
+                                        <input type="text" name="city"
+                                            class="form-control"value="{{ !empty(Auth::user()->city) ? Auth::user()->city : '' }}"
+                                            required>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label>Quận / Phường *</label>
-                                        <input type="text" name="district" class="form-control" required>
+                                        <input type="text" name="district"
+                                            class="form-control"value="{{ !empty(Auth::user()->district) ? Auth::user()->district : '' }}"
+                                            required>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label>Mã bưu / Zip *</label>
-                                        <input type="text" name="code_zip" class="form-control" required>
+                                        <input type="text" name="code_zip"
+                                            class="form-control"value="{{ !empty(Auth::user()->code_zip) ? Auth::user()->code_zip : '' }}"
+                                            required>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <label>Số điện thoại *</label>
-                                        <input type="tel" name="phone" class="form-control" required>
+                                        <input type="tel" name="phone"
+                                            class="form-control"value="{{ !empty(Auth::user()->phone) ? Auth::user()->phone : '' }}"
+                                            required>
                                     </div>
                                 </div>
 
                                 <label>Địa chỉ Email *</label>
-                                <input type="email" name="email" class="form-control" required>
+                                <input type="email" name="email"
+                                    class="form-control"value="{{ !empty(Auth::user()->email) ? Auth::user()->email : '' }}"
+                                    required>
 
                                 @if (empty(Auth::check()))
                                     <div class="custom-control custom-checkbox">
@@ -235,6 +248,7 @@
                             </aside>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>

@@ -80,4 +80,19 @@ class AccountController extends Controller
         $user->save();
         return redirect()->back()->with('success', "Tài khoản quản trị viên đã được xóa thành công");
     }
+
+    public function customer_list()
+    {
+        $data['getRecord']      = User::getCustomer();
+        $data['header_title'] = "Tài Khoản Khách Hàng";
+        return view('admin.account.customer_list', $data);
+    }
+
+    public function customer_delete($id)
+    {
+        $user = User::getSingle($id);
+        $user->is_delete = 1;
+        $user->save();
+        return redirect()->back()->with('success', "Tài khoản khách hàng đã được xóa thành công");
+    }
 }

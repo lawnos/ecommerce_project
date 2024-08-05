@@ -8,9 +8,22 @@ use App\Models\SubCategoryModel;
 use App\Models\ProductModel;
 use App\Models\ColorModel;
 use App\Models\BrandModel;
+use App\Models\ProductReviewModel;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    public function my_wishlist()
+    {
+        $data['meta_title']             = 'Sản Phẩm Yêu Thích';
+        $data['meta_desription']        = '';
+        $data['meta_keywords']          = '';
+
+        $data['getProduct']             = ProductModel::getMyWishlist(Auth::user()->id);
+
+        return view('product.my_wishlist', $data);
+    }
+
     public function getProductSearch(Request $request)
     {
         $data['meta_title']             = 'Tìm Kiếm';
@@ -53,6 +66,8 @@ class ProductController extends Controller
 
             $data['getProduct']             = $getProductSingle;
             $data['getRelatedProduct']      = ProductModel::getRelatedProduct($getProductSingle->id, $getProductSingle->sub_category_id);
+
+            $data['getReviewProduct']              = ProductReviewModel::getReviewProduct($getProductSingle->id);
 
             return view('product.detail', $data);
         } else if (!empty($getCategory) && !empty($getSubCategory)) {

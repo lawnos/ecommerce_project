@@ -84,3 +84,5 @@ class CategoryController extends Controller
         return redirect('admin/category/list')->with('success', "Danh mục đã được xóa thành công");
     }
 }
+
+

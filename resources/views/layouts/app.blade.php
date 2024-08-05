@@ -28,6 +28,11 @@
 
     <link rel="stylesheet" href="{{ asset('client/assets/css/style.css') }}">
     @yield('style')
+    <style type="text/css">
+        .btn-wishlist-add::before {
+            content: '\f233' !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -302,6 +307,29 @@
                     }
                 });
             });
+
+            $('body').delegate('.add_to_wishlist', 'click', function(e) {
+                e.preventDefault();
+                var product_id = $(this).attr('id');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('add-to-wishlist') }}",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "product_id": product_id,
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.is_wishlist == 0) {
+                            $('.add_to_wishlist' + product_id).removeClass('btn-wishlist-add');
+                        } else {
+                            $('.add_to_wishlist' + product_id).addClass('btn-wishlist-add');
+                        }
+                    }
+                });
+            });
+
+
         });
     </script>
 

@@ -1,6 +1,19 @@
 @component('mail::message')
     <p>Kính thưa {{ $order->first_name }}, </p>
-    <p>Cảm ơn bạn đã mua hàng với <strong>Trendy Threads</strong>,Chúng tôi rất vui lòng xác nhận đơn hàng của bạn..</p>
+    <p>Trạng thái đơn hàng: <b>
+            @if ($order->status == 0)
+                Chờ xác nhận
+            @elseif($order->status == 1)
+                Đang xử lý
+            @elseif($order->status == 2)
+                Đang vận chuyển
+            @elseif($order->status == 3)
+                Giao hàng thành công
+            @elseif($order->status == 4)
+                Đã hủy
+            @endif
+        </b>
+    </p>
     <h3>Hóa đơn chi tiết:</h3>
     <ul>
         <li>Số đơn hàng: {{ $order->order_number }}</li>

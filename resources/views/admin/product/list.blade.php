@@ -24,26 +24,14 @@
                     <div class="col-md-12">
                         @include('admin.layouts.message')
                         <div class="card">
-                            {{-- <div class="card-header">
-                                <h3 class="card-title">List</h3>
-                                <div class="card-tools">
-                                    <ul class="pagination pagination-sm float-right">
-                                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                    </ul>
-                                </div>
-                            </div> --}}
+                            
 
                             <div class="card-body p-0">
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>ID</th>
                                             <th>Tiêu đề</th>
-                                            {{-- <th>Slug</th> --}}
                                             <th>Được tạo bởi</th>
                                             <th>Trạng thái</th>
                                             <th>Thời gian tạo</th>
@@ -53,9 +41,8 @@
                                     <tbody>
                                         @foreach ($getRecord as $value)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $value->id }}</td>
                                                 <td>{{ $value->title }}</td>
-                                                {{-- <td>{{ $value->slug }}</td> --}}
                                                 <td>{{ $value->created_by_name }}</td>
                                                 <td>{{ $value->status == 0 ? 'Hoạt dộng' : 'Không hoạt động' }}</td>
                                                 <td>{{ date('y-m-Y', strtotime($value->created_at)) }}</td>
@@ -85,5 +72,4 @@
     </div>
 @endsection
 @section('script')
-    
 @endsection

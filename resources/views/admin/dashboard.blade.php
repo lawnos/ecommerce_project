@@ -11,51 +11,121 @@
                     <div class="col-sm-6">
                         <h1 class="m-0">Bảng điều khiển</h1>
                     </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Bảng điều khiển</li>
-                        </ol>
-                    </div>
                 </div>
             </div>
         </div>
 
+        <section class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Tổng đơn hàng</span>
+                                <span class="info-box-number">{{ $TotalOrder }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Đơn hàng hôm nay</span>
+                                <span class="info-box-number">{{ $TotalTodayOrder }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-credit-card"></i>
+                                </i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Tổng thanh toán</span>
+                                <span class="info-box-number">₫ {{ number_format($TotalAmount) }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-credit-card"></i>
+                                </i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Thanh toán hôm nay</span>
+                                <span class="info-box-number">₫ {{ number_format($TotalTodayAmount) }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-circle"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Tổng khách hàng</span>
+                                <span class="info-box-number">{{ $TotalCustomer }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-2">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-circle"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Tổng khách hàng hôm nay</span>
+                                <span class="info-box-number">{{ $TotalTodayCustomer }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-6">
+
+                    <div class="col-lg-12">
+
                         <div class="card">
                             <div class="card-header border-0">
                                 <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Online Store Visitors</h3>
-                                    <a href="javascript:void(0);">View Report</a>
+                                    <h3 class="card-title">Việc bán hàng</h3>
+                                    <select class="form-control ChangeYear" style="width: 100px">
+                                        @for ($i = 2022; $i <= date('Y'); $i++)
+                                            <option {{ $year == $i ? 'selected' : '' }} value="{{ $i }}">
+                                                {{ $i }}
+                                            </option>
+                                        @endfor
+                                    </select>
+
                                 </div>
                             </div>
+
                             <div class="card-body">
                                 <div class="d-flex">
                                     <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">820</span>
-                                        <span>Visitors Over Time</span>
+                                        <span class="text-bold text-lg">₫ {{ number_format($totalAmount) }}</span>
+                                        <span>Doanh số theo thời gian (VND)</span>
                                     </p>
-                                    <p class="ml-auto d-flex flex-column text-right">
-                                        <span class="text-success">
-                                            <i class="fas fa-arrow-up"></i> 12.5%
-                                        </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </p>
+
                                 </div>
 
                                 <div class="position-relative mb-4">
-                                    <canvas id="visitors-chart" height="200"></canvas>
+                                    <canvas id="sales-chart-order" height="200"></canvas>
                                 </div>
                                 <div class="d-flex flex-row justify-content-end">
                                     <span class="mr-2">
-                                        <i class="fas fa-square text-primary"></i> This Week
+                                        <i class="fas fa-square text-primary"></i> Khách hàng
                                     </span>
+                                    <span class="mr-2">
+                                        <i class="fas fa-square text-gray"></i> Đơn hàng
+                                    </span class="mr-2">
                                     <span>
-                                        <i class="fas fa-square text-gray"></i> Last Week
+                                        <i class="fas fa-square text-danger"></i> Doanh thu (VND)
                                     </span>
                                 </div>
                             </div>
@@ -63,7 +133,7 @@
 
                         <div class="card">
                             <div class="card-header border-0">
-                                <h3 class="card-title">Products</h3>
+                                <h3 class="card-title">Danh sách đơn hàng mới</h3>
                                 <div class="card-tools">
                                     <a href="#" class="btn btn-tool btn-sm">
                                         <i class="fas fa-download"></i>
@@ -73,161 +143,135 @@
                                     </a>
                                 </div>
                             </div>
+
                             <div class="card-body table-responsive p-0">
                                 <table class="table table-striped table-valign-middle">
                                     <thead>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>Sales</th>
-                                            <th>More</th>
+                                            <th>#</th>
+                                            <th>Tên</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Mã đơn hàng</th>
+                                            <th>Mã bưu chính</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Email</th>
+                                            <th>Tổng cộng</th>
+                                            <th>Phương thức thanh toán</th>
+                                            <th>Ngày đặt</th>
+                                            <th>Hoạt động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <img src="{{ asset('assets/dist/img/default-150x150.png') }}"
-                                                    alt="Product 1" class="img-circle img-size-32 mr-2">
-                                                Some Product
-                                            </td>
-                                            <td>$13 USD</td>
-                                            <td>
-                                                <small class="text-success mr-1">
-                                                    <i class="fas fa-arrow-up"></i>
-                                                    12%
-                                                </small>
-                                                12,000 Sold
-                                            </td>
-                                            <td>
-                                                <a href="#" class="text-muted">
-                                                    <i class="fas fa-search"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="{{ asset('assets/dist/img/default-150x150.png') }}"
-                                                    alt="Product 1" class="img-circle img-size-32 mr-2">
-                                                Another Product
-                                            </td>
-                                            <td>$29 USD</td>
-                                            <td>
-                                                <small class="text-warning mr-1">
-                                                    <i class="fas fa-arrow-down"></i>
-                                                    0.5%
-                                                </small>
-                                                123,234 Sold
-                                            </td>
-                                            <td>
-                                                <a href="#" class="text-muted">
-                                                    <i class="fas fa-search"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($getLatestOrder as $value)
+                                            <tr>
+                                                <td>{{ $value->id }}</td>
+                                                <td>{{ $value->first_name }} {{ $value->last_name }}</td>
+                                                <td>{{ $value->address_one }} <br /> {{ $value->address_two }}</td>
+                                                <td>{{ $value->order_number }}</td>
+                                                <td>{{ $value->postcode }}</td>
+                                                <td>{{ $value->phone }}</td>
+                                                <td>{{ $value->email }}</td>
+                                                <td>₫{{ number_format($value->total_amount) }}</td>
+                                                <td style="text-transform: capitalize">{{ $value->payment_method }}
+                                                </td>
 
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
+                                                <td>
+                                                    <a href="{{ url('admin/order/detail/' . $value->id) }}"
+                                                        class="btn btn-warning">
+                                                        Chi tiết</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
                     </div>
-
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class="card-header border-0">
-                                <div class="d-flex justify-content-between">
-                                    <h3 class="card-title">Sales</h3>
-                                    <a href="javascript:void(0);">View Report</a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">$18,230.00</span>
-                                        <span>Sales Over Time</span>
-                                    </p>
-                                    <p class="ml-auto d-flex flex-column text-right">
-                                        <span class="text-success">
-                                            <i class="fas fa-arrow-up"></i> 33.1%
-                                        </span>
-                                        <span class="text-muted">Since last month</span>
-                                    </p>
-                                </div>
-
-                                <div class="position-relative mb-4">
-                                    <canvas id="sales-chart" height="200"></canvas>
-                                </div>
-                                <div class="d-flex flex-row justify-content-end">
-                                    <span class="mr-2">
-                                        <i class="fas fa-square text-primary"></i> This year
-                                    </span>
-                                    <span>
-                                        <i class="fas fa-square text-gray"></i> Last year
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header border-0">
-                                <h3 class="card-title">Online Store Overview</h3>
-                                <div class="card-tools">
-                                    <a href="#" class="btn btn-sm btn-tool">
-                                        <i class="fas fa-download"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-sm btn-tool">
-                                        <i class="fas fa-bars"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                    <p class="text-success text-xl">
-                                        <i class="ion ion-ios-refresh-empty"></i>
-                                    </p>
-                                    <p class="d-flex flex-column text-right">
-                                        <span class="font-weight-bold">
-                                            <i class="ion ion-android-arrow-up text-success"></i> 12%
-                                        </span>
-                                        <span class="text-muted">CONVERSION RATE</span>
-                                    </p>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                                    <p class="text-warning text-xl">
-                                        <i class="ion ion-ios-cart-outline"></i>
-                                    </p>
-                                    <p class="d-flex flex-column text-right">
-                                        <span class="font-weight-bold">
-                                            <i class="ion ion-android-arrow-up text-warning"></i> 0.8%
-                                        </span>
-                                        <span class="text-muted">SALES RATE</span>
-                                    </p>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center mb-0">
-                                    <p class="text-danger text-xl">
-                                        <i class="ion ion-ios-people-outline"></i>
-                                    </p>
-                                    <p class="d-flex flex-column text-right">
-                                        <span class="font-weight-bold">
-                                            <i class="ion ion-android-arrow-down text-danger"></i> 1%
-                                        </span>
-                                        <span class="text-muted">REGISTRATION RATE</span>
-                                    </p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-
             </div>
-
         </div>
 
     </div>
 @endsection
 @section('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.ChangeYear').change(function() {
+                var year = $(this).val();
+                window.location.href = "{{ url('admin/dashboard?year=') }}" + year;
+            });
+        });
+
+
+        var ticksStyle = {
+            fontColor: '#495057',
+            fontStyle: 'bold'
+        }
+
+        var mode = 'index'
+        var intersect = true
+
+        var $salesChart = $('#sales-chart-order')
+        var salesChart = new Chart($salesChart, {
+            type: 'bar',
+            data: {
+                labels: ['THÁNG 1', 'THÁNG 2', 'THÁNG 3', 'THÁNG 4', 'THÁNG 5', 'THÁNG 6', 'THÁNG 7 ', 'THÁNG 8',
+                    'THÁNG 9', 'THÁNG 10', 'THÁNG 11', 'THÁNG 12'
+                ],
+                datasets: [{
+                    backgroundColor: '#007bff',
+                    borderColor: '#007bff',
+                    data: [{{ $getTotalCustomerMonth }}]
+                }, {
+                    backgroundColor: '#ced4da',
+                    borderColor: '#ced4da',
+                    data: [{{ $getTotalOrderMonth }}]
+                }, {
+                    backgroundColor: '#dc3545',
+                    borderColor: '#dc3545',
+                    data: [{{ $getTotalOrderAmountMonth }}]
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                hover: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: 200, // Thay đổi giá trị này tùy thuộc vào nhu cầu của bạn
+                        grid: {
+                            display: true,
+                            drawBorder: false,
+                            color: 'rgba(0, 0, 0, .2)',
+                            zeroLineColor: 'transparent',
+                            borderWidth: 1
+                        },
+                        ticks: $.extend({
+                            callback: function(value) {
+
+                                return '₫' + value;
+                            }
+                        }, ticksStyle)
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: ticksStyle
+                    }
+                }
+            }
+        })
+    </script>
 @endsection

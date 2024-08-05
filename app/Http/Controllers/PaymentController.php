@@ -219,7 +219,7 @@ class PaymentController extends Controller
                     $order_item->size_amount = $getSize->price;
                 }
 
-                $order_item->total_price = $cart->price;
+                $order_item->total_price = $cart->price * $cart->quantity;
                 $order_item->save();
             }
             $json['status'] = true;
@@ -410,7 +410,7 @@ class PaymentController extends Controller
             $getOrder->transaction_id = $getdata->id;
             $getOrder->payment_data = json_encode($getdata);
             $getOrder->save();
-            
+
             Mail::to($getOrder->email)->send(new OrderInvoiceMail($getOrder));
 
             Cart::clear();

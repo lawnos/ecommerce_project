@@ -126,15 +126,14 @@
                                             <th>#</th>
                                             <th>Tên</th>
                                             <th>Địa chỉ</th>
-                                            <th>Thành phố</th>
-                                            <th>Tình trạng</th>
+                                            <th>Mã đơn hàng</th>
                                             <th>Mã bưu chính</th>
                                             <th>Số điện thoại</th>
                                             <th>Email</th>
                                             <th>Tổng cộng</th>
                                             <th>Phương thức thanh toán</th>
                                             <th>Trạng thái</th>
-                                            <th>Ngày tạo</th>
+                                            <th>Ngày đặt</th>
                                             <th>Hoạt động</th>
                                         </tr>
                                     </thead>
@@ -144,15 +143,29 @@
                                                 <td>{{ $value->id }}</td>
                                                 <td>{{ $value->first_name }} {{ $value->last_name }}</td>
                                                 <td>{{ $value->address_one }} <br /> {{ $value->address_two }}</td>
-                                                <td>{{ $value->city }}</td>
-                                                <td>{{ $value->state }}</td>
+                                                <td>{{ $value->order_number }}</td>
                                                 <td>{{ $value->postcode }}</td>
                                                 <td>{{ $value->phone }}</td>
                                                 <td>{{ $value->email }}</td>
                                                 <td>₫{{ number_format($value->total_amount) }}</td>
                                                 <td style="text-transform: capitalize">{{ $value->payment_method }}
                                                 </td>
-                                                <td></td>
+                                                <td>
+                                                    <select name="" id="{{ $value->id }}"
+                                                        class="form-control ChangeStatus" style="width: 150px">
+                                                        <option {{ $value->status == 0 ? 'selected' : '' }}
+                                                            value="0">Chờ xác nhận</option>
+                                                        <option {{ $value->status == 1 ? 'selected' : '' }}
+                                                            value="1">Đang xử lý</option>
+                                                        <option {{ $value->status == 2 ? 'selected' : '' }}
+                                                            value="2">Đang vận chuyển</option>
+                                                        <option {{ $value->status == 3 ? 'selected' : '' }}
+                                                            value="3">Giao hàng thành công</option>
+                                                        <option {{ $value->status == 4 ? 'selected' : '' }}
+                                                            value="4">Đã hủy</option>
+                                                    </select>
+                                                </td>
+
                                                 <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
                                                 <td>
                                                     <a href="{{ url('admin/order/detail/' . $value->id) }}"
@@ -176,4 +189,33 @@
     </div>
 @endsection
 @section('script')
+    <script type="text/javascript">
+
+        $('body').delegate('.ChangeStatus', 'change', function() {
+            var status = $(this).val();
+            var order_id = $(this).attr('id');
+
+            if (!status || !order_id) {
+                alert("Dữ liệu không hợp lệ.");
+                return;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "{{ url('admin/order_status') }}",
+                data: {
+                    status: status,
+                    order_id: order_id
+                },
+                dataType: "json",
+                success: function(data) {
+                    alert(data.message);
+                },
+                error: function(xhr, status, error) {
+                    alert('Có lỗi xảy ra. Vui lòng thử lại.');
+                    console.error('Error:', status, error, xhr.responseText);
+                }
+            });
+        });
+    </script>
 @endsection
