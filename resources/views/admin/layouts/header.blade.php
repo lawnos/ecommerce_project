@@ -145,20 +145,7 @@
                         <p>Bảng điều khiển</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url('admin/account/list') }}"
-                        class="nav-link @if (Request::segment(2) == 'account') active @endif">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Tài khoản Admin</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('admin/customer/list') }}"
-                        class="nav-link @if (Request::segment(2) == 'customer') active @endif">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Tài khoản khách hàng</p>
-                    </a>
-                </li>
+
                 <li class="nav-item">
                     <a href="{{ url('admin/category/list') }}"
                         class="nav-link @if (Request::segment(2) == 'category') active @endif">
@@ -213,6 +200,27 @@
                         class="nav-link @if (Request::segment(2) == 'shipping_charge') active @endif">
                         <i class="nav-icon fas fa-shipping-fast"></i>
                         <p>Phí vận chuyển</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/account/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'account') active @endif">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Tài khoản Admin</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/customer/list') }}"
+                        class="nav-link @if (Request::segment(2) == 'customer') active @endif">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Tài khoản khách hàng</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/contact') }}"
+                        class="nav-link @if (Request::segment(2) == 'contact') active @endif">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Liên hệ</p>
                     </a>
                 </li>
                 <li class="nav-item">

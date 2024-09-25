@@ -30,8 +30,8 @@
 
                         <ul class="widget-list">
                             <li><a href="{{ url('about') }}">Về TrendyThreads</a></li>
-                            <li><a href="#">Cách mua sắm trên TrendyThreads</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a href="">Cách mua sắm trên TrendyThreads</a></li>
+                            <li><a href="{{ url('faq') }}">FAQ</a></li>
                             <li><a href="{{ url('contact') }}">Liên hệ chúng tôi</a></li>
                             <li><a href="#signin-modal" data-toggle="modal">Đăng nhập</a></li>
                         </ul>
@@ -59,9 +59,9 @@
                         <ul class="widget-list">
                             <li><a href="#signin-modal" data-toggle="modal">Đăng nhập</a></li>
                             <li><a href="{{ url('cart') }}">Xem giỏ hàng</a></li>
-                            <li><a href="#">Sản phẩm yêu thích</a></li>
-                            <li><a href="#">Theo dõi đơn hàng của tôi</a></li>
-                            <li><a href="#">Giúp đỡ</a></li>
+                            <li><a href="{{ url('my-wishlist') }}">Sản phẩm yêu thích</a></li>
+                            <li><a href="{{ url('user/order') }}">Theo dõi đơn hàng của tôi</a></li>
+                            <li><a href="">Giúp đỡ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -71,7 +71,8 @@
 
     <div class="footer-bottom">
         <div class="container">
-            <p class="footer-copyright">Bản quyền © 2024 Cửa hàng TrendyThreads. Đã đăng ký Bản quyền.</p>
+            <p class="footer-copyright">Bản quyền © {{ date('Y') }} Cửa hàng TrendyThreads. Đã đăng ký Bản quyền.
+            </p>
             <figure class="footer-payments">
                 <img src="client/assets/images/payments.png" alt="Payment methods" width="272" height="20">
             </figure>

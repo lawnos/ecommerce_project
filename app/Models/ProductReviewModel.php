@@ -50,4 +50,12 @@ class ProductReviewModel extends Model
             return 0;
         }
     }
+
+    static public function getRatingAVG($product_id)
+    {
+        return self::select('product_review.rating')
+            ->join('users', 'user_id', 'product_review.user_id')
+            ->where('product_review.product_id', '=', $product_id)
+            ->avg("product_review.rating");
+    }
 }

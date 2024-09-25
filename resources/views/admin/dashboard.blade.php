@@ -174,7 +174,6 @@
                                                 <td>₫{{ number_format($value->total_amount) }}</td>
                                                 <td style="text-transform: capitalize">{{ $value->payment_method }}
                                                 </td>
-
                                                 <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
                                                 <td>
                                                     <a href="{{ url('admin/order/detail/' . $value->id) }}"

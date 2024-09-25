@@ -52,11 +52,11 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>ID:</label>
-                                        <p>{{ $getRecord->order_number ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->order_number ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>ID giao dịch:</label>
-                                        <p>{{ $getRecord->transaction_id ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->transaction_id ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Tên:</label>
@@ -64,61 +64,61 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Tên công ty:</label>
-                                        <p>{{ $getRecord->company_name ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->company_name ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Quận:</label>
-                                        <p>{{ $getRecord->county ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->county ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Địa chỉ:</label>
-                                        <p>Địa chỉ 1: {{ $getRecord->address_one ?? 'Không có' }}<br>Địa chỉ 2:
-                                            {{ $getRecord->address_two ?? 'Không có' }}
+                                        <p>Địa chỉ 1: {{ $getRecord->address_one ?? 'Trống' }}<br>Địa chỉ 2:
+                                            {{ $getRecord->address_two ?? 'Trống' }}
                                         </p>
                                     </div>
                                     <div class="form-group">
                                         <label>Thành phố:</label>
-                                        <p>{{ $getRecord->city ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->city ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Tình trạng:</label>
-                                        <p>{{ $getRecord->state ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->state ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Mã bưu chính:</label>
-                                        <p>{{ $getRecord->postcode ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->postcode ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Số điện thoại:</label>
-                                        <p>{{ $getRecord->phone ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->phone ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Email:</label>
-                                        <p>{{ $getRecord->email ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->email ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Mã giảm giá:</label>
-                                        <p>{{ $getRecord->discount_code ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->discount_code ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Số tiền giảm giá:</label>
-                                        <p>₫{{ number_format($getRecord->discount_amount) ?? 'Không có' }}</p>
+                                        <p>₫{{ number_format($getRecord->discount_amount) ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Loại vận chuyển:</label>
-                                        <p>{{ $getRecord->getShipping->name ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->getShipping->name ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Số tiền vận chuyển:</label>
-                                        <p>₫{{ number_format($getRecord->shipping_amount) ?? 'Không có' }}</p>
+                                        <p>₫{{ number_format($getRecord->shipping_amount) ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Tổng cộng:</label>
-                                        <p>₫{{ number_format($getRecord->total_amount) ?? 'Không có' }}</p>
+                                        <p>₫{{ number_format($getRecord->total_amount) ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Phương thức thanh toán:</label>
-                                        <p>{{ $getRecord->payment_method ?? 'Không có' }}</p>
+                                        <p>{{ $getRecord->payment_method ?? 'Trống' }}</p>
                                     </div>
                                     <div class="form-group">
                                         <label>Trạng thái:</label>
@@ -138,7 +138,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Ngày tạo:</label>
-                                        <p>{{ date('d-m-Y h:i A', strtotime($getRecord->created_at)) ?? 'Không có' }}
+                                        <p>{{ date('d-m-Y h:i A', strtotime($getRecord->created_at)) ?? 'Trống' }}
                                         </p>
                                     </div>
                                 </div>

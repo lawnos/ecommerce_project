@@ -3,15 +3,6 @@
         <div class="container">
             <div class="header-left">
                 <div class="header-dropdown">
-                    <a href="#">VND</a>
-                    <div class="header-menu">
-                        <ul>
-                            <li><a href="">VND</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="header-dropdown">
                     <a href="#">VIE</a>
                     <div class="header-menu">
                         <ul>

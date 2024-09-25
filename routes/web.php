@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\Admin\ShippingChargeController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
@@ -42,13 +43,19 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('user/change-password',                 [UserController::class, 'update_password']);
     Route::post('add-to-wishlist',                      [UserController::class, 'add_to_wishlist']);
     Route::post('user/make-review',                     [UserController::class, 'make_review']);
-    
+
     Route::get('my-wishlist',                           [ProductFront::class, 'my_wishlist']);
 });
 
 Route::group(['middleware' => 'admin'], function () {
 
     Route::get('admin/dashboard',                       [DashboardController::class, 'dashboard']);
+
+    //contact
+    Route::get('admin/contact',                         [DashboardController::class, 'list_contact']);
+    Route::get('admin/contact/delete/{id}',             [DashboardController::class, 'delete_contact']);
+
+    //end contact
 
     //account admin
     Route::get('admin/account/list',                    [AccountController::class, 'list']);
@@ -138,9 +145,22 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('admin/order_status',                    [OrderController::class, 'order_status']);
     //end order
 
+    //slider
+    Route::get('admin/slider/list',                     [SliderController::class, 'list']);
+    Route::get('admin/slider/add',                      [SliderController::class, 'add']);
+    Route::post('admin/slider/add',                     [SliderController::class, 'insert']);
+    Route::get('admin/slider/edit/{id}',                [SliderController::class, 'edit']);
+    Route::post('admin/slider/edit/{id}',               [SliderController::class, 'update']);
+    Route::get('admin/slider/delete/{id}',              [SliderController::class, 'delete']);
+    //end slider
+
 });
 
 Route::get('/',                             [HomeController::class, 'home']);
+Route::get('contact',                       [HomeController::class, 'contact']);
+Route::post('contact',                      [HomeController::class, 'submit_contact']);
+Route::get('about',                         [HomeController::class, 'about']);
+Route::get('faq',                           [HomeController::class, 'faq']);
 
 Route::get('logout',                        [AuthController::class, 'logout_client']);
 Route::post('auth_register',                [AuthController::class, 'auth_register']);

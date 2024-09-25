@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ContactUsModel;
 use App\Models\OrderModel;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,5 +59,20 @@ class DashboardController extends Controller
         $data['header_title']       = "Bảng Điều Khiển";
 
         return view('admin.dashboard', $data);
+    }
+
+    public function list_contact()
+    {
+        $data['getRecord'] = ContactUsModel::getRecord();
+        $data['header_title'] = "Danh Sách Liên Hệ";
+
+        return view('admin.contact.list', $data);
+    }
+
+    public function delete_contact($id)
+    {
+        ContactUsModel::where('id', '=', $id)
+            ->delete();
+        return redirect()->back()->with('success', "Xóa liên hệ thành công");
     }
 }
