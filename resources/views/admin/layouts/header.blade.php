@@ -147,7 +147,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ url('admin/category/list') }}"
+                    <a href="{{route('admin.category.list')}}"
                         class="nav-link @if (Request::segment(2) == 'category') active @endif">
                         <i class="nav-icon fas fa-list-ul"></i>
                         <p>Danh mục</p>
@@ -203,10 +203,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/account/list') }}"
+                    <a href="{{ route('admin.account.list') }}"
                         class="nav-link @if (Request::segment(2) == 'account') active @endif">
                         <i class="nav-icon fas fa-user"></i>
-                        <p>Tài khoản Admin</p>
+                        <p>Tài khoản Nhân viên</p>
                     </a>
                 </li>
                 <li class="nav-item">

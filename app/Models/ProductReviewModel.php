@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductReviewModel extends Model
 {
     use HasFactory;
-    protected $table = 'product_review';
+    protected $table = 'product_reviews';
 
     static public function getSingle($id)
     {
@@ -26,10 +26,10 @@ class ProductReviewModel extends Model
 
     static public function getReviewProduct($product_id)
     {
-        return self::select('product_review.*', 'users.name')
-            ->join('users', 'user_id', 'product_review.user_id')
-            ->where('product_review.product_id', '=', $product_id)
-            ->orderBy('product_review.id', 'desc')
+        return self::select('product_reviews.*', 'users.name')
+            ->join('users', 'user_id', 'product_reviews.user_id')
+            ->where('product_reviews.product_id', '=', $product_id)
+            ->orderBy('product_reviews.id', 'desc')
             ->paginate(10);
     }
 
@@ -53,9 +53,9 @@ class ProductReviewModel extends Model
 
     static public function getRatingAVG($product_id)
     {
-        return self::select('product_review.rating')
-            ->join('users', 'user_id', 'product_review.user_id')
-            ->where('product_review.product_id', '=', $product_id)
-            ->avg("product_review.rating");
+        return self::select('product_reviews.rating')
+            ->join('users', 'user_id', 'product_reviews.user_id')
+            ->where('product_reviews.product_id', '=', $product_id)
+            ->avg("product_reviews.rating");
     }
 }

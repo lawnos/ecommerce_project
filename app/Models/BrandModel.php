@@ -9,7 +9,7 @@ class BrandModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'brand';
+    protected $table = 'brands';
 
     static public function getSingle($id)
     {
@@ -18,19 +18,19 @@ class BrandModel extends Model
 
     static public function getRecord()
     {
-        return self::select('brand.*', 'users.name as created_by_name')
-            ->join('users', 'users.id', '=', 'brand.created_by')
-            ->where('brand.is_delete', '=', 0)
-            ->orderBy('brand.id', 'desc')
+        return self::select('brands.*', 'users.name as created_by_name')
+            ->join('users', 'users.id', '=', 'brands.created_by')
+            ->where('brands.is_delete', '=', 0)
+            ->orderBy('brands.id', 'desc')
             ->get();
     }
     static public function getRecordActive()
     {
-        return self::select('brand.*')
-            ->join('users', 'users.id', '=', 'brand.created_by')
-            ->where('brand.is_delete', '=', 0)
-            ->where('brand.status', '=', 0)
-            ->orderBy('brand.id', 'asc')
+        return self::select('brands.*')
+            ->join('users', 'users.id', '=', 'brands.created_by')
+            ->where('brands.is_delete', '=', 0)
+            ->where('brands.status', '=', 0)
+            ->orderBy('brands.id', 'asc')
             ->get();
     }
 }

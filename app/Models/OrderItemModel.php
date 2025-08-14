@@ -10,7 +10,7 @@ class OrderItemModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'order_item';
+    protected $table = 'order_items';
 
     public function getProduct()
     {

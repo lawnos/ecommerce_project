@@ -9,7 +9,7 @@ class ShippingChargeModel extends Model
 {
     use HasFactory;
 
-    protected $table = "shipping_charge";
+    protected $table = "shipping_charges";
 
     static public function getSingle($id)
     {
@@ -18,18 +18,18 @@ class ShippingChargeModel extends Model
 
     static public function getRecord()
     {
-        return self::select('shipping_charge.*')
-            ->where('shipping_charge.is_delete', '=', 0)
-            ->orderBy('shipping_charge.id', 'desc')
+        return self::select('shipping_charges.*')
+            ->where('shipping_charges.is_delete', '=', 0)
+            ->orderBy('shipping_charges.id', 'desc')
             ->paginate(20);
     }
 
     static public function getRecordActive()
     {
-        return self::select('shipping_charge.*')
-            ->where('shipping_charge.is_delete', '=', 0)
-            ->where('shipping_charge.status', '=', 0)
-            ->orderBy('shipping_charge.id', 'asc')
+        return self::select('shipping_charges.*')
+            ->where('shipping_charges.is_delete', '=', 0)
+            ->where('shipping_charges.status', '=', 0)
+            ->orderBy('shipping_charges.id', 'asc')
             ->get(20);
     }
 }

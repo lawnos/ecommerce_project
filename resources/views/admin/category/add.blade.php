@@ -11,9 +11,7 @@
                     <div class="col-sm-6">
                         <h1>Thêm mới danh mục</h1>
                     </div>
-                    <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/category/list') }}" class="btn btn-primary">Quay lại</a>
-                    </div>
+
                 </div>
             </div>
         </section>
@@ -28,16 +26,19 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>Tên danh mục <span style="color:red">*</span></label>
-                                        <input type="text" class="form-control" name="name" required
-                                            value="{{ old('name') }}" placeholder="Nhập tên danh mục">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                               value="{{ old('name') }}" placeholder="Nhập tên danh mục">
+                                        <div style="color:red">{{ $errors->first('name') }}
+                                        </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label>Slug <span style="color:red">*</span></label>
-                                        <input type="text" class="form-control" name="slug" required
-                                            value="{{ old('slug') }}" placeholder="Slug Ex. URL">
+                                        <input type="text" class="form-control" id="slug" name="slug"
+                                               value="{{ old('slug') }}" placeholder="Slug Ex. URL">
                                         <div style="color:red">{{ $errors->first('slug') }}</div>
                                     </div>
+
 
                                     <div class="form-group">
                                         <label>Trạng thái <span style="color:red">*</span></label>
@@ -53,28 +54,29 @@
 
                                     <hr>
 
-                                    <div class="form-group">
-                                        <label>Tiêu đề Meta <span style="color:red">*</span></label>
-                                        <input type="text" class="form-control" name="meta_title" required
-                                            value="{{ old('meta_title') }}" placeholder="Nhập tiêu đề Meta">
-                                    </div>
+                                    {{--                                    <div class="form-group ">--}}
+                                    {{--                                        <label>Tiêu đề Meta <span style="color:red">*</span></label>--}}
+                                    {{--                                        <input type="text" class="form-control" name="meta_title" required--}}
+                                    {{--                                            value="{{ old('meta_title') }}" placeholder="Nhập tiêu đề Meta">--}}
+                                    {{--                                    </div>--}}
 
-                                    <div class="form-group">
-                                        <label>Mô tả Meta</label>
-                                        <textarea name="meta_description" class="form-control" cols="30" rows="10"
-                                            placeholder="Nhập mô tả Meta">{{ old('meta_description') }}</textarea>
-                                    </div>
+                                    {{--                                    <div class="form-group ">--}}
+                                    {{--                                        <label>Mô tả Meta</label>--}}
+                                    {{--                                        <textarea name="meta_description" class="form-control" cols="30" rows="10"--}}
+                                    {{--                                            placeholder="Nhập mô tả Meta">{{ old('meta_description') }}</textarea>--}}
+                                    {{--                                    </div>--}}
 
-                                    <div class="form-group">
-                                        <label>Từ khóa Meta</label>
-                                        <input type="text" class="form-control" name="meta_keywords"
-                                            value="{{ old('meta_keywords') }}" placeholder="Nhập từ khóa Meta">
-                                    </div>
+                                    {{--                                    <div class="form-group ">--}}
+                                    {{--                                        <label>Từ khóa Meta</label>--}}
+                                    {{--                                        <input type="text" class="form-control" name="meta_keywords"--}}
+                                    {{--                                            value="{{ old('meta_keywords') }}" placeholder="Nhập từ khóa Meta">--}}
+                                    {{--                                    </div>--}}
 
                                 </div>
 
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Gửi</button>
+                                <div class="card-footer text-right">
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                    <a href="{{ route('admin.category.list') }}" class="btn btn-primary">Quay lại</a>
                                 </div>
                             </form>
                         </div>
@@ -86,5 +88,28 @@
     </div>
 @endsection
 @section('script')
-    
+    <script>
+        function convertToSlug(text) {
+            text = text.toLowerCase().trim();
+
+            const from = "áàảãạăắằẳẵặâấầẩẫậđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ";
+            const to = "aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyy";
+
+            for (let i = 0; i < from.length; i++) {
+                text = text.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+            }
+
+            text = text.replace(/[\s\W-]+/g, '-');
+            text = text.replace(/^-+|-+$/g, '');
+
+            return text;
+        }
+
+        document.getElementById('name').addEventListener('input', function () {
+            const nameValue = this.value;
+            const slugValue = convertToSlug(nameValue);
+            document.getElementById('slug').value = slugValue;
+        });
+    </script>
+
 @endsection

@@ -9,11 +9,9 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Thêm tài khoản mới quản trị viên</h1>
+                        <h1>Thêm tài khoản nhân viên</h1>
                     </div>
-                    <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/account/list') }}" class="btn btn-primary">Quay lại</a>
-                    </div>
+
                 </div>
             </div>
         </section>
@@ -58,8 +56,9 @@
                                     </div>
                                 </div>
 
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Gửi</button>
+                                <div class="card-footer text-right">
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                    <a href="{{ route('admin.account.list') }}" class="btn btn-primary">Quay lại</a>
                                 </div>
                             </form>
                         </div>
@@ -71,5 +70,5 @@
     </div>
 @endsection
 @section('script')
-    
+
 @endsection

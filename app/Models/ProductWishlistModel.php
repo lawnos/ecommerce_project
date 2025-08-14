@@ -9,7 +9,7 @@ class ProductWishlistModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'produc_wishlist';
+    protected $table = 'product_wishlist';
 
     static public function getSingle($id)
     {

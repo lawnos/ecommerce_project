@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryModel extends Model
 {
     use HasFactory;
-    protected $table = 'category';
+
+    protected $table = 'categories';
 
     static public function getSingle($id)
     {
@@ -18,43 +19,52 @@ class CategoryModel extends Model
     static public function getSingleSlug($slug)
     {
         return self::where('slug', '=', $slug)
-            ->where('category.status', '=', 0)
-            ->where('category.is_delete', '=', 0)
+            ->where('categories.status', '=', 0)
+            ->where('categories.is_delete', '=', 0)
             ->first();
     }
 
     static public function getRecord()
     {
-        return self::select('category.*', 'users.name as created_by_name')
-            ->join('users', 'users.id', '=', 'category.created_by')
-            ->where('category.is_delete', '=', 0)
-            ->orderBy('category.id', 'asc')
+        return self::select('categories.*', 'users.name as created_by_name')
+            ->join('users', 'users.id', '=', 'categories.created_by')
+            ->where('categories.is_delete', '=', 0)
+            ->orderBy('categories.id', 'asc')
+            ->paginate(20);
+    }
+
+    static public function deletedCategories()
+    {
+        return self::select('categories.*', 'users.name as created_by_name')
+            ->join('users', 'users.id', '=', 'categories.created_by')
+            ->where('categories.is_delete', '=', 1)
+            ->orderBy('categories.id', 'asc')
             ->paginate(20);
     }
 
     static public function getRecordActive()
     {
-        return self::select('category.*')
-            ->join('users', 'users.id', '=', 'category.created_by')
-            ->where('category.is_delete', '=', 0)
-            ->where('category.status', '=', 0)
-            ->orderBy('category.name', 'asc')
+        return self::select('categories.*')
+            ->join('users', 'users.id', '=', 'categories.created_by')
+            ->where('categories.is_delete', '=', 0)
+            ->where('categories.status', '=', 0)
+            ->orderBy('categories.name', 'asc')
             ->get();
     }
 
     static public function getRecordMenu()
     {
-        return self::select('category.*')
-            ->join('users', 'users.id', '=', 'category.created_by')
-            ->where('category.is_delete', '=', 0)
-            ->where('category.status', '=', 0)
+        return self::select('categories.*')
+            ->join('users', 'users.id', '=', 'categories.created_by')
+            ->where('categories.is_delete', '=', 0)
+            ->where('categories.status', '=', 0)
             ->get();
     }
 
     public function getSubCategory()
     {
         return $this->hasMany(SubCategoryModel::class, "category_id")
-            ->where('sub_category.status', '=', 0)
-            ->where('sub_category.is_delete', '=', 0);
+            ->where('sub_categories.status', '=', 0)
+            ->where('sub_categories.is_delete', '=', 0);
     }
 }

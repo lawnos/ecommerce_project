@@ -144,4 +144,7 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', "Cảm ơn bạn đã đánh giá!");
     }
+
+    
+    
 }

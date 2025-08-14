@@ -9,7 +9,7 @@ class ProductSizeModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_size';
+    protected $table = 'product_sizes';
 
     static public function getSingle($id)
     {

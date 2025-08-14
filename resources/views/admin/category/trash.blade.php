@@ -12,11 +12,8 @@
                         <h1>Danh sách danh mục</h1>
                     </div>
                     <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ route('admin.category.add') }}" class="btn btn-outline-primary"><i
-                                class="fa-solid fa-plus"></i> Thêm mới danh
-                            mục</a>
-                        <a href="{{ route('admin.category.trash') }}" class="btn btn-danger"><i
-                                class="fa-solid fa-trash-can"></i> Thùng rác</a>
+                        <a href="{{ route('admin.category.list') }}" class="btn btn-primary"><i
+                                class="fa-solid fa-arrow-left-long"></i> Quay lại</a>
                     </div>
                 </div>
             </div>
@@ -46,12 +43,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @if ($getRecord->isEmpty())
+                                    @if ($deletedCategories->isEmpty())
                                         <tr>
-                                            <td colspan="10" class="text-center">Danh mục trống.</td>
+                                            <td colspan="10" class="text-center">Thùng rác trống.</td>
                                         </tr>
                                     @else
-                                        @foreach ($getRecord as $value)
+                                        @foreach ($deletedCategories as $value)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $value->name }}</td>
@@ -60,24 +57,15 @@
                                                 {{--                                                <td>{{ $value->meta_description }}</td>--}}
                                                 {{--                                                <td>{{ $value->meta_keywords }}</td>--}}
                                                 <td>{{ $value->created_by_name }}</td>
-                                                <td>
-                                                    <button
-                                                        class="btn btn-sm btn-status {{ $value->status == 0 ? 'btn-success' : 'btn-danger' }}"
-                                                        data-id="{{ $value->id }}"
-                                                        data-url="{{ route('admin.category.changeStatusAjax') }}"
-                                                        style="width: 130px">
-                                                        {{ $value->status == 0 ? 'Hoạt động' : 'Không hoạt động' }}
-                                                    </button>
-                                                </td>
-
+                                                <td>{{ $value->status == 0 ? 'Hoạt dộng' : 'Không hoạt động' }}</td>
                                                 <td>{{ date('y-m-Y', strtotime($value->created_at)) }}</td>
                                                 <td>
-                                                    <a href="{{ url('admin/category/edit/' . $value->id) }}"
-                                                       class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                    <a href="{{ url('admin/category/delete/' . $value->id) }}"
+                                                    <a href="{{ route('admin.category.restore', $value->id) }}"
+                                                       class="btn btn-success">Khôi phục</a>
+                                                    <a href="{{ route('admin.category.forceDelete', $value->id) }}"
                                                        class="btn btn-danger"
-                                                       onclick="return confirm('Bạn có chắc chắn muốn xóa mục này không?');"><i
-                                                            class="fa-solid fa-trash-can"></i></a>
+                                                       onclick="return confirm('Bạn chắc chắn muốn xóa vĩnh viễn danh mục này?');">Xóa
+                                                        vĩnh viễn</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -87,7 +75,7 @@
                                     </tbody>
                                 </table>
                                 <div style="padding: 10px; float: right">
-                                    {!! $getRecord->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                                    {!! $deletedCategories->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
                                 </div>
                             </div>
                         </div>
@@ -95,10 +83,11 @@
                 </div>
             </div>
         </section>
-    </div>
-    
-@endsection
 
+    </div>
+@endsection
+@section('script')
+@endsection
 
 
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SubCategoryModel extends Model
 {
     use HasFactory;
-    protected $table = 'sub_category';
+    protected $table = 'sub_categories';
 
     static function getSingle($id)
     {
@@ -18,37 +18,37 @@ class SubCategoryModel extends Model
     static public function getSingleSlug($slug)
     {
         return self::where('slug', '=', $slug)
-            ->where('sub_category.status', '=', 0)
-            ->where('sub_category.is_delete', '=', 0)
+            ->where('sub_categories.status', '=', 0)
+            ->where('sub_categories.is_delete', '=', 0)
             ->first();
     }
 
     static public function getRecord()
     {
-        return self::select('sub_category.*', 'users.name as created_by_name', 'category.name as category_name')
-            ->join('category', 'category.id', '=', 'sub_category.category_id')
-            ->join('users', 'users.id', '=', 'sub_category.created_by')
-            ->where('sub_category.is_delete', '=', 0)
-            ->orderBy('sub_category.id', 'asc')
+        return self::select('sub_categories.*', 'users.name as created_by_name', 'categories.name as category_name')
+            ->join('categories', 'categories.id', '=', 'sub_categories.category_id')
+            ->join('users', 'users.id', '=', 'sub_categories.created_by')
+            ->where('sub_categories.is_delete', '=', 0)
+            ->orderBy('sub_categories.id', 'asc')
             ->paginate(15);
     }
 
     static public function getRecordSubCategory($category_id)
     {
-        return self::select('sub_category.*')
-            ->join('users', 'users.id', '=', 'sub_category.created_by')
-            ->where('sub_category.is_delete', '=', 0)
-            ->where('sub_category.status', '=', 0)
-            ->where('sub_category.category_id', '=', $category_id)
-            ->orderBy('sub_category.name', 'asc')
+        return self::select('sub_categories.*')
+            ->join('users', 'users.id', '=', 'sub_categories.created_by')
+            ->where('sub_categories.is_delete', '=', 0)
+            ->where('sub_categories.status', '=', 0)
+            ->where('sub_categories.category_id', '=', $category_id)
+            ->orderBy('sub_categories.name', 'asc')
             ->get();
     }
 
     public function TotalProduct()
     {
-        return $this->hasMany(ProductModel::class, 'sub_category_id')
-            ->where('product.is_delete', '=', 0)
-            ->where('product.status', '=', 0)
+        return $this->hasMany(ProductModel::class, 'sub_categories')
+            ->where('products.is_delete', '=', 0)
+            ->where('products.status', '=', 0)
             ->count();
     }
 }

@@ -12,7 +12,7 @@ class ProductModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'product';
+    protected $table = 'products';
 
     static public function getSingle($id)
     {
@@ -21,32 +21,32 @@ class ProductModel extends Model
 
     static public function getRecord()
     {
-        return self::select('product.*', 'users.name as created_by_name')
-            ->join('users', 'users.id', '=', 'product.created_by')
-            ->where('product.is_delete', '=', 0)
-            ->orderBy('product.id', 'desc')
+        return self::select('products.*', 'users.name as created_by_name')
+            ->join('users', 'users.id', '=', 'products.created_by')
+            ->where('products.is_delete', '=', 0)
+            ->orderBy('products.id', 'desc')
             ->paginate(12);
     }
 
     static public function getMyWishlist($user_id)
     {
         $return = ProductModel::select(
-            'product.*',
+            'products.*',
             'users.name as created_by_name',
             'category.name as category_name',
             'category.slug as category_slug',
-            'sub_category.name as sub_category_name',
-            'sub_category.slug as sub_category_slug',
+            'sub_categories.name as sub_category_name',
+            'sub_categories.slug as sub_category_slug',
         )
-            ->join('users', 'users.id', '=', 'product.created_by')
-            ->join('category', 'category.id', '=', 'product.category_id')
-            ->join('sub_category', 'sub_category.id', '=', 'product.sub_category_id')
-            ->join('produc_wishlist', 'produc_wishlist.product_id', '=', 'product.id')
-            ->where('produc_wishlist.user_id', '=', $user_id)
-            ->where('product.is_delete', '=', 0)
-            ->where('product.status', '=', 0)
-            ->groupBy('product.id')
-            ->orderBy('product.id', 'desc')
+            ->join('users', 'users.id', '=', 'products.created_by')
+            ->join('categories', 'categories.id', '=', 'products.category_id')
+            ->join('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id')
+            ->join('product_wishlist', 'produc_wishlist.product_id', '=', 'products.id')
+            ->where('product_wishlist.user_id', '=', $user_id)
+            ->where('products.is_delete', '=', 0)
+            ->where('products.status', '=', 0)
+            ->groupBy('products.id')
+            ->orderBy('products.id', 'desc')
             ->paginate(12);
 
         return $return;
@@ -56,50 +56,50 @@ class ProductModel extends Model
     {
 
         $return = ProductModel::select(
-            'product.*',
+            'products.*',
             'users.name as created_by_name',
-            'category.name as category_name',
-            'category.slug as category_slug',
-            'sub_category.name as sub_category_name',
-            'sub_category.slug as sub_category_slug',
+            'categories.name as category_name',
+            'categories.slug as category_slug',
+            'sub_categories.name as sub_category_name',
+            'sub_categories.slug as sub_category_slug',
         )
-            ->join('users', 'users.id', '=', 'product.created_by')
-            ->join('category', 'category.id', '=', 'product.category_id')
-            ->join('sub_category', 'sub_category.id', '=', 'product.sub_category_id');
+            ->join('users', 'users.id', '=', 'products.created_by')
+            ->join('categories', 'category.id', '=', 'products.category_id')
+            ->join('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id');
 
         if (!empty($category_id)) {
-            $return = $return->where('product.category_id', '=', $category_id);
+            $return = $return->where('products.category_id', '=', $category_id);
         }
 
         if (!empty($subcategory_id)) {
-            $return = $return->where('product.sub_category_id', '=', $subcategory_id);
+            $return = $return->where('products.sub_category_id', '=', $subcategory_id);
         }
 
         if (!empty(Request::get('sub_category_id'))) {
             $sub_category_id        = rtrim(Request::get('sub_category_id'), ',');
             $sub_category_id_array  = explode(",", $sub_category_id);
-            $return                 = $return->whereIn('product.sub_category_id', $sub_category_id_array);
+            $return                 = $return->whereIn('products.sub_category_id', $sub_category_id_array);
         } else {
             if (!empty(Request::get('old_category_id'))) {
-                $return = $return->where('product.category_id', '=', Request::get('old_category_id'));
+                $return = $return->where('products.category_id', '=', Request::get('old_category_id'));
             }
 
             if (!empty(Request::get('old_sub_category_id'))) {
-                $return = $return->where('product.sub_category_id', '=', Request::get('old_sub_category_id'));
+                $return = $return->where('products.sub_category_id', '=', Request::get('old_sub_category_id'));
             }
         }
 
         if (!empty(Request::get('color_id'))) {
             $color_id           = rtrim(Request::get('color_id'), ',');
             $color_id_array     = explode(",", $color_id);
-            $return             = $return->join('product_color', 'product_color.product_id', '=', 'product.id');
-            $return             = $return->whereIn('product_color.color_id', $color_id_array);
+            $return             = $return->join('product_colors', 'product_colors.product_id', '=', 'products.id');
+            $return             = $return->whereIn('product_colors.color_id', $color_id_array);
         }
 
         if (!empty(Request::get('brand_id'))) {
             $brand_id           = rtrim(Request::get('brand_id'), ',');
             $brand_id_array     = explode(",", $brand_id);
-            $return             = $return->whereIn('product.brand_id', $brand_id_array);
+            $return             = $return->whereIn('products.brand_id', $brand_id_array);
         }
 
         if (!empty(Request::get('start_price')) && !empty(Request::get('end_price'))) {
@@ -111,13 +111,13 @@ class ProductModel extends Model
         }
 
         if (!empty(Request::get('q'))) {
-            $return = $return->where('product.title', 'like', '%' . Request::get('q') . '%');
+            $return = $return->where('products.title', 'like', '%' . Request::get('q') . '%');
         }
 
-        $return = $return->where('product.is_delete', '=', 0)
-            ->where('product.status', '=', 0)
-            ->groupBy('product.id')
-            ->orderBy('product.id', 'desc')
+        $return = $return->where('products.is_delete', '=', 0)
+            ->where('products.status', '=', 0)
+            ->groupBy('products.id')
+            ->orderBy('products.id', 'desc')
             ->paginate(10);
 
         return $return;
@@ -128,20 +128,20 @@ class ProductModel extends Model
         $return = ProductModel::select(
             'product.*',
             'users.name as created_by_name',
-            'category.name as category_name',
-            'category.slug as category_slug',
-            'sub_category.name as sub_category_name',
-            'sub_category.slug as sub_category_slug',
+            'categories.name as category_name',
+            'categories.slug as category_slug',
+            'sub_categories.name as sub_category_name',
+            'sub_categories.slug as sub_category_slug',
         )
-            ->join('users', 'users.id', '=', 'product.created_by')
-            ->join('category', 'category.id', '=', 'product.category_id')
-            ->join('sub_category', 'sub_category.id', '=', 'product.sub_category_id')
-            ->where('product.id', '!=', $product_id)
-            ->where('product.sub_category_id', '=', $sub_category_id)
-            ->where('product.is_delete', '=', 0)
-            ->where('product.status', '=', 0)
-            ->groupBy('product.id')
-            ->orderBy('product.id', 'desc')
+            ->join('users', 'users.id', '=', 'products.created_by')
+            ->join('categories', 'category.id', '=', 'product.category_id')
+            ->join('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id')
+            ->where('products.id', '!=', $product_id)
+            ->where('products.sub_category_id', '=', $sub_category_id)
+            ->where('products.is_delete', '=', 0)
+            ->where('products.status', '=', 0)
+            ->groupBy('products.id')
+            ->orderBy('products.id', 'desc')
             ->limit(10)
             ->get();
 
@@ -158,8 +158,8 @@ class ProductModel extends Model
     static function getSingleSlug($slug)
     {
         return self::where('slug', '=', $slug)
-            ->where('product.is_delete', '=', 0)
-            ->where('product.status', '=', 0)
+            ->where('products.is_delete', '=', 0)
+            ->where('products.status', '=', 0)
             ->first();
     }
 
@@ -201,7 +201,7 @@ class ProductModel extends Model
     public function getTotalReview()
     {
         return $this->hasMany(ProductReviewModel::class, "product_id")
-            ->join('users', 'user_id', 'product_review.user_id')
+            ->join('users', 'user_id', 'product_reviews.user_id')
             ->count();
     }
 

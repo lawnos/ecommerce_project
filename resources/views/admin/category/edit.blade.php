@@ -12,7 +12,7 @@
                         <h1>Sửa danh mục</h1>
                     </div>
                     <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/category/list') }}" class="btn btn-primary">Quay lại</a>
+
                     </div>
                 </div>
             </div>
@@ -29,53 +29,56 @@
                                     <div class="form-group">
                                         <label>Tên danh mục <span style="color:red">*</span></label>
                                         <input type="text" class="form-control" name="name" required
-                                            value="{{ old('name', $getRecord->name) }}" placeholder="Nhập tên danh mục">
+                                               value="{{ old('name', $getRecord->name) }}"
+                                               placeholder="Nhập tên danh mục">
                                     </div>
 
                                     <div class="form-group">
                                         <label>Slug <span style="color:red">*</span></label>
                                         <input type="text" class="form-control" name="slug" required
-                                            value="{{ old('slug', $getRecord->slug) }}" placeholder="Slug Ex. URL">
+                                               value="{{ old('slug', $getRecord->slug) }}" placeholder="Slug Ex. URL">
                                         <div style="color:red">{{ $errors->first('slug') }}</div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label>Trạng thái <span style="color:red">*</span></label>
-                                        <select class="form-control" name="status" id="" required>
-                                            <option {{ $getRecord->status == 0 ? 'selected' : '' }} value="0">
-                                                Hoạt động
-                                            </option>
-                                            <option {{ $getRecord->status == 1 ? 'selected' : '' }} value="1">
-                                                Không hoạt động
-                                            </option>
-                                        </select>
-                                    </div>
+                                    {{--                                    <div class="form-group">--}}
+                                    {{--                                        <label>Trạng thái <span style="color:red">*</span></label>--}}
+                                    {{--                                        <select class="form-control" name="status" id="" required>--}}
+                                    {{--                                            <option {{ $getRecord->status == 0 ? 'selected' : '' }} value="0">--}}
+                                    {{--                                                Hoạt động--}}
+                                    {{--                                            </option>--}}
+                                    {{--                                            <option {{ $getRecord->status == 1 ? 'selected' : '' }} value="1">--}}
+                                    {{--                                                Không hoạt động--}}
+                                    {{--                                            </option>--}}
+                                    {{--                                        </select>--}}
+                                    {{--                                    </div>--}}
 
                                     <hr>
 
-                                    <div class="form-group">
-                                        <label>Tiêu đề Meta <span style="color:red">*</span></label>
-                                        <input type="text" class="form-control" name="meta_title" required
-                                            value="{{ old('meta_title', $getRecord->meta_title) }}"
-                                            placeholder="Nhập tiêu đề Meta">
-                                    </div>
+                                    {{--                                    <div class="form-group">--}}
+                                    {{--                                        <label>Tiêu đề Meta <span style="color:red">*</span></label>--}}
+                                    {{--                                        <input type="text" class="form-control" name="meta_title" required--}}
+                                    {{--                                               value="{{ old('meta_title', $getRecord->meta_title) }}"--}}
+                                    {{--                                               placeholder="Nhập tiêu đề Meta">--}}
+                                    {{--                                    </div>--}}
 
-                                    <div class="form-group">
-                                        <label>Mô tả Meta</label>
-                                        <textarea name="meta_description" class="form-control" cols="30" rows="10" placeholder="Nhập mô tả Meta">{{ old('meta_description', $getRecord->meta_description) }}</textarea>
-                                    </div>
+                                    {{--                                    <div class="form-group">--}}
+                                    {{--                                        <label>Mô tả Meta</label>--}}
+                                    {{--                                        <textarea name="meta_description" class="form-control" cols="30" rows="10"--}}
+                                    {{--                                                  placeholder="Nhập mô tả Meta">{{ old('meta_description', $getRecord->meta_description) }}</textarea>--}}
+                                    {{--                                    </div>--}}
 
-                                    <div class="form-group">
-                                        <label>Từ khóa Meta</label>
-                                        <input type="text" class="form-control" name="meta_keywords"
-                                            value="{{ old('meta_keywords', $getRecord->meta_keywords) }}"
-                                            placeholder="Nhập từ khóa Meta">
-                                    </div>
+                                    {{--                                    <div class="form-group">--}}
+                                    {{--                                        <label>Từ khóa Meta</label>--}}
+                                    {{--                                        <input type="text" class="form-control" name="meta_keywords"--}}
+                                    {{--                                               value="{{ old('meta_keywords', $getRecord->meta_keywords) }}"--}}
+                                    {{--                                               placeholder="Nhập từ khóa Meta">--}}
+                                    {{--                                    </div>--}}
 
                                 </div>
 
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                <div class="card-footer text-right">
+                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                    <a href="{{ route('admin.category.list') }}" class="btn btn-primary">Quay lại</a>
                                 </div>
                             </form>
                         </div>
@@ -87,5 +90,5 @@
     </div>
 @endsection
 @section('script')
-    
+
 @endsection

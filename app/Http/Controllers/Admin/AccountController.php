@@ -12,7 +12,7 @@ class AccountController extends Controller
     public function list()
     {
         $data['getRecord']      = User::getAdmin();
-        $data['header_title'] = "Tài Khoản";
+        $data['header_title']   = "Danh Sách Tài Khoản";
         return view('admin.account.list', $data);
     }
 
@@ -38,9 +38,9 @@ class AccountController extends Controller
         $user->email    = $request->email;
         $user->password = Hash::make($request->password);
         $user->status   = $request->status;
-        $user->is_admin = 1;
+        $user->is_admin = 0;
         $user->save();
-        return redirect('admin/account/list')->with('success', "Tài khoản quản trị viên đã được thêm thành công");
+        return redirect('admin/account/list')->with('success', "Tài khoản nhân viên đã được thêm thành công");
     }
 
     public function edit($id)
@@ -68,9 +68,9 @@ class AccountController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->status   = $request->status;
-        $user->is_admin = 1;
+        $user->is_admin = 0;
         $user->save();
-        return redirect('admin/account/list')->with('success', "Tài khoản quản trị viên đã được sửa thành công");
+        return redirect('admin/account/list')->with('success', "Tài khoản nhân viên đã được sửa thành công");
     }
 
     public function delete($id)

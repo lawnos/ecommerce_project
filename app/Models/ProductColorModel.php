@@ -9,7 +9,7 @@ class ProductColorModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_color';
+    protected $table = 'product_colors';
 
     static public function DeleteRecord($product_id)
     {

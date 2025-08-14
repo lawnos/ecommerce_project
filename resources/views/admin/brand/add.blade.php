@@ -24,7 +24,7 @@
                     <div class="col-md-12">
                         <div class="card card-primary">
                             <form action="" method="POST">
-                                {{ csrf_field() }}
+
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>Tên thương hiệu <span style="color:red">*</span></label>
@@ -85,5 +85,4 @@
     </div>
 @endsection
 @section('script')
-    
 @endsection

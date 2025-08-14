@@ -10,7 +10,7 @@ class ContactUsModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'contact';
+    protected $table = 'contacts';
 
     static public function getSingle($id)
     {
@@ -19,7 +19,7 @@ class ContactUsModel extends Model
 
     static public function getRecord()
     {
-        $return =  self::select('contact.*');
+        $return =  self::select('contacts.*');
 
         $filters = [
             'id' => '=',
@@ -36,7 +36,7 @@ class ContactUsModel extends Model
             }
         }
 
-        $return = $return->orderBy('contact.id', 'desc')
+        $return = $return->orderBy('contacts.id', 'desc')
             ->paginate(12);
 
         return $return;

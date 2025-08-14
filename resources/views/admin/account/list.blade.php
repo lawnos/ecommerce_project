@@ -12,7 +12,7 @@
                         <h1>Danh sách tài khoản quản trị viên</h1>
                     </div>
                     <div class="col-sm-6" style="text-align: right">
-                        <a href="{{ url('admin/account/add') }}" class="btn btn-primary">Thêm tài khoản quản trị viên</a>
+                        <a href="{{ route('admin.account.list') }}" class="btn btn-primary">Thêm tài khoản nhân viên</a>
                     </div>
                 </div>
             </div>

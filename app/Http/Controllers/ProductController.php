@@ -113,6 +113,7 @@ class ProductController extends Controller
                     $page = !empty($get_array['page']) ? $get_array['page'] : 0;
                 }
             }
+            
             $data['page'] = $page;
 
             $data['getProduct'] = $getProduct;

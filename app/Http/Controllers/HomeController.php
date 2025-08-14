@@ -45,7 +45,7 @@ class HomeController extends Controller
 
         return view('page.about', $data);
     }
-
+ 
     public function faq()
     {
         $data['meta_title']         = 'FAQ';
